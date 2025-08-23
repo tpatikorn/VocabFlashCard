@@ -1,0 +1,31 @@
+[
+  {
+    "group_name": "Media & Communication",
+    "word_list": [
+      {
+        "word": "Journalism",
+        "part_of_speech": "Noun",
+        "meaning_en": "The activity of gathering, assessing, and presenting news and information.",
+        "meaning_th": "การสื่อสารมวลชน; กิจกรรมในการรวบรวม ประเมิน และนำเสนอข่าวสาร",
+        "examples": [
+          "Journalism plays a vital role in informing the public.",
+          "Investigative journalism uncovers important social issues.",
+          "Digital platforms have transformed modern journalism."
+        ],
+        "synonyms": [
+          "reporting",
+          "news writing"
+        ],
+        "antonyms": [
+          "propaganda"
+        ],
+        "word_forms": [
+          "journalist (n.)",
+          "journalistic (adj.)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "High"
+      }
+    ]
+  }
+]

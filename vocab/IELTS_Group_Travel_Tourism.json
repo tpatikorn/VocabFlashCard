@@ -1,0 +1,31 @@
+[
+  {
+    "group_name": "Travel & Tourism",
+    "word_list": [
+      {
+        "word": "Itinerary",
+        "part_of_speech": "Noun",
+        "meaning_en": "A planned route or journey.",
+        "meaning_th": "แผนการเดินทาง; กำหนดการการเดินทาง",
+        "examples": [
+          "The travel agency provided a detailed itinerary for the trip.",
+          "She checked the itinerary before leaving for her vacation.",
+          "Planning an itinerary helps travelers save time and money."
+        ],
+        "synonyms": [
+          "schedule",
+          "agenda",
+          "program"
+        ],
+        "antonyms": [
+          "impromptu trip"
+        ],
+        "word_forms": [
+          "itinerant (adj.)"
+        ],
+        "difficulty": "Tier 2",
+        "frequency": "Medium"
+      }
+    ]
+  }
+]

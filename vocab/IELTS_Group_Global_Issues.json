@@ -1,0 +1,28 @@
+[
+  {
+    "group_name": "Global & Issues",
+    "word_list": [
+      {
+        "word": "Climate Change",
+        "part_of_speech": "Noun",
+        "meaning_en": "A long-term change in the Earth's climate, especially due to human activity.",
+        "meaning_th": "การเปลี่ยนแปลงสภาพภูมิอากาศ; การเปลี่ยนแปลงระยะยาวของสภาพอากาศโลก",
+        "examples": [
+          "Climate change threatens ecosystems and human societies.",
+          "Many countries commit to reducing emissions to fight climate change.",
+          "Education is key to understanding climate change impacts."
+        ],
+        "synonyms": [
+          "global warming",
+          "environmental change"
+        ],
+        "antonyms": [],
+        "word_forms": [
+          "climatic (adj.)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "High"
+      }
+    ]
+  }
+]

@@ -1,0 +1,31 @@
+[
+  {
+    "group_name": "Arts & Entertainment",
+    "word_list": [
+      {
+        "word": "Exhibition",
+        "part_of_speech": "Noun",
+        "meaning_en": "A public display of art or items of interest.",
+        "meaning_th": "นิทรรศการ; การจัดแสดงศิลปะหรือสิ่งที่น่าสนใจต่อสาธารณะ",
+        "examples": [
+          "The museum hosted an art exhibition featuring local artists.",
+          "Photography exhibitions attract visitors from all over the city.",
+          "Planning an exhibition requires careful organization."
+        ],
+        "synonyms": [
+          "display",
+          "show",
+          "presentation"
+        ],
+        "antonyms": [
+          "concealment"
+        ],
+        "word_forms": [
+          "exhibit (v.)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "High"
+      }
+    ]
+  }
+]

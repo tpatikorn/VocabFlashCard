@@ -1,0 +1,84 @@
+[
+  {
+    "group_name": "Health & Medicine",
+    "word_list": [
+      {
+        "word": "Nutrition",
+        "part_of_speech": "Noun",
+        "meaning_en": "The process of providing or obtaining the food necessary for health and growth.",
+        "meaning_th": "โภชนาการ; กระบวนการในการจัดหาหรือได้รับอาหารที่จำเป็นต่อสุขภาพและการเจริญเติบโต",
+        "examples": [
+          "Good nutrition is vital for children's development.",
+          "Many governments promote healthy nutrition through public campaigns.",
+          "Poor nutrition can lead to various health problems."
+        ],
+        "synonyms": [
+          "diet",
+          "nourishment",
+          "food"
+        ],
+        "antonyms": [
+          "malnutrition",
+          "starvation"
+        ],
+        "word_forms": [
+          "nutritional (adj.)",
+          "nutritious (adj.)",
+          "nutrient (n.)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "High"
+      },
+      {
+        "word": "Vaccination",
+        "part_of_speech": "Noun",
+        "meaning_en": "The act of giving a vaccine to protect against disease.",
+        "meaning_th": "การฉีดวัคซีน; การให้วัคซีนเพื่อป้องกันโรค",
+        "examples": [
+          "Vaccination programs have eradicated diseases such as smallpox.",
+          "Many parents worry about the side effects of vaccination.",
+          "Vaccination is a crucial part of global health strategies."
+        ],
+        "synonyms": [
+          "immunization",
+          "inoculation"
+        ],
+        "antonyms": [
+          "infection",
+          "disease"
+        ],
+        "word_forms": [
+          "vaccinate (v.)",
+          "vaccine (n.)",
+          "vaccinated (adj.)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "High"
+      },
+      {
+        "word": "Pandemic",
+        "part_of_speech": "Noun",
+        "meaning_en": "An outbreak of a disease occurring over a wide geographic area and affecting a large population.",
+        "meaning_th": "การระบาดใหญ่; การแพร่กระจายของโรคในวงกว้างที่ส่งผลต่อประชากรจำนวนมาก",
+        "examples": [
+          "The COVID-19 pandemic changed the way people work and live.",
+          "International cooperation is essential during a global pandemic.",
+          "The pandemic highlighted the importance of healthcare systems."
+        ],
+        "synonyms": [
+          "epidemic",
+          "outbreak"
+        ],
+        "antonyms": [
+          "endemic",
+          "contained disease"
+        ],
+        "word_forms": [
+          "pandemic (adj.)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "High"
+      }
+    ]
+  }
+]

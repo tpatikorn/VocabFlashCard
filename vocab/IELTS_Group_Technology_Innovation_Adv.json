@@ -1,0 +1,27 @@
+[
+  {
+    "group_name": "Technology & Innovation & Adv",
+    "word_list": [
+      {
+        "word": "Blockchain",
+        "part_of_speech": "Noun",
+        "meaning_en": "A system in which a record of transactions is maintained across several computers linked in a network.",
+        "meaning_th": "บล็อกเชน; ระบบบันทึกธุรกรรมที่เก็บไว้บนคอมพิวเตอร์หลายเครื่องที่เชื่อมต่อกัน",
+        "examples": [
+          "Blockchain technology is revolutionizing the finance sector.",
+          "Many startups use blockchain to ensure data security.",
+          "Understanding blockchain is increasingly important in tech industries."
+        ],
+        "synonyms": [
+          "distributed ledger"
+        ],
+        "antonyms": [],
+        "word_forms": [
+          "blockchain-based (adj.)"
+        ],
+        "difficulty": "Tier 2",
+        "frequency": "Medium"
+      }
+    ]
+  }
+]

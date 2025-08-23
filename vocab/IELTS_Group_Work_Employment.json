@@ -1,0 +1,83 @@
+[
+  {
+    "group_name": "Work & Employment",
+    "word_list": [
+      {
+        "word": "Unemployment",
+        "part_of_speech": "Noun",
+        "meaning_en": "The state of not having a job despite actively seeking work.",
+        "meaning_th": "การว่างงาน; ภาวะที่ไม่มีงานทำแม้กำลังหางานอยู่",
+        "examples": [
+          "High unemployment can lead to social instability.",
+          "Many governments introduce policies to reduce unemployment rates.",
+          "Technological progress may increase unemployment in some sectors."
+        ],
+        "synonyms": [
+          "joblessness",
+          "idleness"
+        ],
+        "antonyms": [
+          "employment",
+          "occupation"
+        ],
+        "word_forms": [
+          "unemployed (adj.)",
+          "employ (v.)",
+          "employer (n.)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "High"
+      },
+      {
+        "word": "Promotion",
+        "part_of_speech": "Noun",
+        "meaning_en": "The act of being raised to a higher position or rank.",
+        "meaning_th": "การเลื่อนตำแหน่ง; การได้รับตำแหน่งหรือยศที่สูงขึ้น",
+        "examples": [
+          "Hard work and dedication often lead to promotion.",
+          "The company announced a new policy for staff promotion.",
+          "Promotion opportunities can motivate employees."
+        ],
+        "synonyms": [
+          "advancement",
+          "elevation",
+          "progression"
+        ],
+        "antonyms": [
+          "demotion",
+          "downgrade"
+        ],
+        "word_forms": [
+          "promote (v.)",
+          "promoted (adj.)"
+        ],
+        "difficulty": "Tier 2",
+        "frequency": "Medium"
+      },
+      {
+        "word": "Overtime",
+        "part_of_speech": "Noun",
+        "meaning_en": "Time worked beyond the regular working hours.",
+        "meaning_th": "การทำงานล่วงเวลา; เวลาที่ทำงานเกินจากชั่วโมงปกติ",
+        "examples": [
+          "Many employees work overtime to earn extra income.",
+          "The law restricts the number of overtime hours per week.",
+          "Overtime can affect work-life balance negatively."
+        ],
+        "synonyms": [
+          "extra hours",
+          "additional work"
+        ],
+        "antonyms": [
+          "regular hours"
+        ],
+        "word_forms": [
+          "overtime (adj.)",
+          "overtime (adv.)"
+        ],
+        "difficulty": "Tier 2",
+        "frequency": "Medium"
+      }
+    ]
+  }
+]

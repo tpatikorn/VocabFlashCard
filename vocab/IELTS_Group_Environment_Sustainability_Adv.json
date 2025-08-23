@@ -1,0 +1,31 @@
+[
+  {
+    "group_name": "Environment & Sustainability & Adv",
+    "word_list": [
+      {
+        "word": "Biodiversity",
+        "part_of_speech": "Noun",
+        "meaning_en": "The variety of plant and animal life in a particular habitat.",
+        "meaning_th": "ความหลากหลายทางชีวภาพ; ความหลากหลายของสิ่งมีชีวิตในพื้นที่หนึ่ง",
+        "examples": [
+          "Biodiversity is essential for ecosystem stability.",
+          "Deforestation threatens biodiversity around the world.",
+          "Conservation programs aim to protect biodiversity."
+        ],
+        "synonyms": [
+          "ecological variety",
+          "species richness"
+        ],
+        "antonyms": [
+          "monoculture",
+          "extinction"
+        ],
+        "word_forms": [
+          "biodiverse (adj.)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "High"
+      }
+    ]
+  }
+]

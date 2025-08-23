@@ -1,0 +1,31 @@
+[
+  {
+    "group_name": "Economy & Finance",
+    "word_list": [
+      {
+        "word": "Inflation",
+        "part_of_speech": "Noun",
+        "meaning_en": "A general increase in prices and fall in the purchasing value of money.",
+        "meaning_th": "เงินเฟ้อ; การเพิ่มขึ้นของราคาสินค้าและลดค่าของเงิน",
+        "examples": [
+          "Inflation affects the cost of living worldwide.",
+          "Central banks adjust interest rates to control inflation.",
+          "High inflation can erode savings and investments."
+        ],
+        "synonyms": [
+          "price rise",
+          "cost increase"
+        ],
+        "antonyms": [
+          "deflation",
+          "price stability"
+        ],
+        "word_forms": [
+          "inflationary (adj.)"
+        ],
+        "difficulty": "Tier 2",
+        "frequency": "High"
+      }
+    ]
+  }
+]

@@ -1,0 +1,349 @@
+{% extends "base.html" %}
+
+{% block title %}Practice{% endblock %}
+
+{% block header %}Vocabulary Practice{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div id="practice-container">
+                <!-- Timer display -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span id="timer" class="badge bg-secondary fs-5">20:00</span>
+                                <span class="ms-2">Time Remaining</span>
+                            </div>
+                            <div>
+                                <span id="score" class="badge bg-primary fs-5">0</span>
+                                <span class="ms-2">Score</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Progress bar -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="progress">
+                            <div id="session-progress" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Word display -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <div id="word-display">
+                                    <h3 id="word-text" class="mb-3">Loading...</h3>
+                                    <p id="part-of-speech" class="text-muted"></p>
+                                    <div id="hints" class="mt-3"></div>
+                                </div>
+                                
+                                <div id="choices-container" class="mt-4">
+                                    <!-- Choices will be dynamically inserted here -->
+                                </div>
+                                
+                                <div id="feedback" class="mt-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Controls -->
+                <div class="row mt-4">
+                    <div class="col-12 text-center">
+                        <button id="start-session-btn" class="btn btn-success btn-lg">Start Session</button>
+                        <button id="next-word-btn" class="btn btn-primary btn-lg d-none">Next Word</button>
+                        <button id="end-session-btn" class="btn btn-danger btn-lg d-none">End Session</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Practice Session JavaScript -->
+<script>
+    // Global variables
+    let sessionId = null;
+    let currentWord = null;
+    let sessionStartTime = null;
+    let sessionEndTime = null;
+    let totalScore = 0;
+    let wordsAttempted = 0;
+    let wordsCorrect = 0;
+    let timerInterval = null;
+    let timeRemaining = 20 * 60; // 20 minutes in seconds
+    
+    // DOM Elements
+    const timerElement = document.getElementById('timer');
+    const scoreElement = document.getElementById('score');
+    const wordTextElement = document.getElementById('word-text');
+    const partOfSpeechElement = document.getElementById('part-of-speech');
+    const hintsElement = document.getElementById('hints');
+    const choicesContainer = document.getElementById('choices-container');
+    const feedbackElement = document.getElementById('feedback');
+    const startSessionBtn = document.getElementById('start-session-btn');
+    const nextWordBtn = document.getElementById('next-word-btn');
+    const endSessionBtn = document.getElementById('end-session-btn');
+    
+    // Format time as MM:SS
+    function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+    
+    // Update timer display
+    function updateTimer() {
+        timerElement.textContent = formatTime(timeRemaining);
+        
+        // Change color when time is running low
+        if (timeRemaining <= 5 * 60) {
+            timerElement.classList.remove('bg-secondary');
+            timerElement.classList.add('bg-warning');
+        }
+        if (timeRemaining <= 1 * 60) {
+            timerElement.classList.remove('bg-warning');
+            timerElement.classList.add('bg-danger');
+        }
+        
+        // End session when time runs out
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            endSession();
+        }
+        
+        timeRemaining--;
+    }
+    
+    // Start the session timer
+    function startTimer() {
+        timeRemaining = 20 * 60; // Reset to 20 minutes
+        timerElement.textContent = formatTime(timeRemaining);
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+    
+    // Stop the session timer
+    function stopTimer() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+    }
+    
+    // Start a new practice session
+    function startSession() {
+        fetch('/flash_card/api/start_session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'Session started') {
+                sessionId = data.session_id;
+                sessionStartTime = new Date(data.start_time);
+                totalScore = 0;
+                wordsAttempted = 0;
+                wordsCorrect = 0;
+                scoreElement.textContent = totalScore;
+                
+                startSessionBtn.classList.add('d-none');
+                nextWordBtn.classList.remove('d-none');
+                endSessionBtn.classList.remove('d-none');
+                
+                startTimer();
+                loadNextWord();
+            } else {
+                alert('Failed to start session: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error starting session:', error);
+            alert('Failed to start session. Please try again.');
+        });
+    }
+    
+    // Load the next word for practice
+    function loadNextWord() {
+        // Clear previous feedback
+        feedbackElement.textContent = '';
+        feedbackElement.className = 'mt-3';
+        
+        fetch('/flash_card/api/next_word')
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert('Error loading word: ' + data.error);
+                return;
+            }
+            
+            currentWord = data;
+            
+            // Display word
+            wordTextElement.textContent = data.word;
+            partOfSpeechElement.textContent = data.part_of_speech || '';
+            
+            // Display hints for level 0
+            if (data.level === 0 && data.choices[0].hints) {
+                let hintsHtml = '<div class="alert alert-info text-start"><strong>Hints:</strong><ul>';
+                data.choices[0].hints.forEach(hint => {
+                    hintsHtml += `<li>${hint}</li>`;
+                });
+                hintsHtml += '</ul></div>';
+                hintsElement.innerHTML = hintsHtml;
+            } else {
+                hintsElement.innerHTML = '';
+            }
+            
+            // Display choices
+            choicesContainer.innerHTML = '';
+            data.choices.forEach((choice, index) => {
+                const button = document.createElement('button');
+                button.className = 'btn btn-outline-primary btn-lg m-2 choice-btn';
+                button.style.minWidth = '200px';
+                
+                if (data.level >= 3) {
+                    // Level 3+: Show only English
+                    button.textContent = choice.text_en;
+                } else {
+                    // Level 0-2: Show both English and Thai
+                    button.innerHTML = `${choice.text_en}<br><small class="text-muted">${choice.text_th}</small>`;
+                }
+                
+                button.onclick = () => selectChoice(index);
+                choicesContainer.appendChild(button);
+            });
+            
+            // Disable next word button until answer is submitted
+            nextWordBtn.disabled = true;
+        })
+        .catch(error => {
+            console.error('Error loading word:', error);
+            wordTextElement.textContent = 'Error loading word. Please try again.';
+        });
+    }
+    
+    // Handle choice selection
+    function selectChoice(selectedIndex) {
+        if (!currentWord) return;
+        
+        // Disable all choice buttons
+        document.querySelectorAll('.choice-btn').forEach(btn => {
+            btn.disabled = true;
+        });
+        
+        // Calculate time taken for this word
+        const timeTaken = 0; // In a real implementation, you would track this
+        
+        // Submit answer
+        fetch('/flash_card/api/submit_answer', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                selected_choice_index: selectedIndex,
+                time_taken: timeTaken
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            wordsAttempted++;
+            
+            if (data.is_correct) {
+                wordsCorrect++;
+                totalScore += data.points_earned;
+                feedbackElement.textContent = `Correct! +${data.points_earned} points`;
+                feedbackElement.className = 'mt-3 alert alert-success';
+            } else {
+                feedbackElement.textContent = 'Incorrect. Keep practicing!';
+                feedbackElement.className = 'mt-3 alert alert-danger';
+            }
+            
+            scoreElement.textContent = totalScore;
+            
+            // Enable next word button
+            nextWordBtn.disabled = false;
+        })
+        .catch(error => {
+            console.error('Error submitting answer:', error);
+            feedbackElement.textContent = 'Error submitting answer. Please try again.';
+            feedbackElement.className = 'mt-3 alert alert-warning';
+        });
+    }
+    
+    // Load next word
+    function nextWord() {
+        loadNextWord();
+    }
+    
+    // End the practice session
+    function endSession() {
+        stopTimer();
+        
+        fetch('/flash_card/api/end_session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                total_score: totalScore,
+                words_attempted: wordsAttempted,
+                words_correct: wordsCorrect
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'Session ended') {
+                // Show session summary
+                wordTextElement.textContent = 'Session Complete!';
+                partOfSpeechElement.textContent = '';
+                hintsElement.innerHTML = '';
+                choicesContainer.innerHTML = '';
+                
+                feedbackElement.innerHTML = `
+                    <div class="alert alert-info">
+                        <h4>Session Summary</h4>
+                        <p>Total Score: ${totalScore}</p>
+                        <p>Words Attempted: ${wordsAttempted}</p>
+                        <p>Words Correct: ${wordsCorrect}</p>
+                        <p>Accuracy: ${wordsAttempted > 0 ? ((wordsCorrect / wordsAttempted) * 100).toFixed(1) : 0}%</p>
+                    </div>
+                `;
+                feedbackElement.className = 'mt-3';
+                
+                // Show start button again
+                startSessionBtn.classList.remove('d-none');
+                nextWordBtn.classList.add('d-none');
+                endSessionBtn.classList.add('d-none');
+            } else {
+                alert('Failed to end session: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error ending session:', error);
+            alert('Failed to end session. Please try again.');
+        });
+    }
+    
+    // Event listeners
+    startSessionBtn.addEventListener('click', startSession);
+    nextWordBtn.addEventListener('click', nextWord);
+    endSessionBtn.addEventListener('click', endSession);
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+        // Session might already be active, check with backend
+        // For simplicity, we'll assume no active session at page load
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,487 @@
+[
+  {
+    "group_name": "Environment & Sustainability",
+    "word_list": [
+      {
+        "word": "Sustainability",
+        "part_of_speech": "Noun",
+        "meaning_en": "Meeting present needs without compromising the ability of future generations to meet theirs.",
+        "meaning_th": "ความยั่งยืน: ตอบสนองความต้องการปัจจุบันโดยไม่กระทบความสามารถของคนรุ่นต่อไป",
+        "examples": [
+          "Sustainability should be embedded in urban planning and policy.",
+          "Businesses are under pressure to report on sustainability metrics.",
+          "Education can promote a culture of sustainability among consumers."
+        ],
+        "synonyms": [
+          "durability",
+          "resilience",
+          "responsibility"
+        ],
+        "antonyms": [
+          "unsustainability"
+        ],
+        "word_forms": [
+          "sustainable (adjective)",
+          "sustainably (adverb)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Very Common"
+      },
+      {
+        "word": "Emissions",
+        "part_of_speech": "Noun",
+        "meaning_en": "Gases or substances released into the atmosphere, often from human activity.",
+        "meaning_th": "การปล่อยก๊าซหรือสารสู่บรรยากาศ มักเกิดจากกิจกรรมมนุษย์",
+        "examples": [
+          "Transport emissions remain a major contributor to urban air pollution.",
+          "Countries pledged to reduce carbon emissions under international agreements.",
+          "Cleaner technologies can lower industrial emissions without harming productivity."
+        ],
+        "synonyms": [
+          "discharges",
+          "outputs"
+        ],
+        "antonyms": [
+          "absorption"
+        ],
+        "word_forms": [
+          "emit (verb)",
+          "emission (noun singular)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Very Common"
+      },
+      {
+        "word": "Deforestation",
+        "part_of_speech": "Noun",
+        "meaning_en": "The clearing or removal of forests, often for agriculture or development.",
+        "meaning_th": "การทำลายป่า/ตัดไม้ทำลายป่า มักเพื่อการเกษตรหรือพัฒนา",
+        "examples": [
+          "Deforestation accelerates biodiversity loss and climate change.",
+          "Stricter enforcement is needed to curb illegal deforestation.",
+          "Consumers can reduce deforestation by choosing certified products."
+        ],
+        "synonyms": [
+          "forest clearance",
+          "logging"
+        ],
+        "antonyms": [
+          "afforestation",
+          "reforestation"
+        ],
+        "word_forms": [
+          "deforest (verb)",
+          "deforested (adjective)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Very Common"
+      },
+      {
+        "word": "Biodiversity",
+        "part_of_speech": "Noun",
+        "meaning_en": "The variety of living species in a particular habitat or on Earth as a whole.",
+        "meaning_th": "ความหลากหลายทางชีวภาพของสิ่งมีชีวิตในพื้นที่หนึ่งหรือทั้งโลก",
+        "examples": [
+          "Protecting biodiversity helps maintain ecosystem services.",
+          "Habitat fragmentation severely threatens biodiversity.",
+          "Marine reserves can conserve biodiversity while supporting fisheries."
+        ],
+        "synonyms": [
+          "biological diversity",
+          "variety of species"
+        ],
+        "antonyms": [
+          "monoculture"
+        ],
+        "word_forms": [
+          "biodiverse (adjective)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Very Common"
+      },
+      {
+        "word": "Conservation",
+        "part_of_speech": "Noun",
+        "meaning_en": "Protection and careful management of natural resources and wildlife.",
+        "meaning_th": "การอนุรักษ์และการจัดการทรัพยากรธรรมชาติและสัตว์ป่าอย่างระมัดระวัง",
+        "examples": [
+          "Conservation efforts rely on local community involvement.",
+          "Funding shortfalls can undermine long-term conservation projects.",
+          "Tourism must be managed to support rather than hinder conservation."
+        ],
+        "synonyms": [
+          "preservation",
+          "protection"
+        ],
+        "antonyms": [
+          "exploitation"
+        ],
+        "word_forms": [
+          "conserve (verb)",
+          "conservational (adjective)",
+          "conservationist (noun)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Very Common"
+      },
+      {
+        "word": "Renewable",
+        "part_of_speech": "Adjective",
+        "meaning_en": "Relating to energy sources that are naturally replenished, such as solar or wind.",
+        "meaning_th": "เกี่ยวกับพลังงานที่ทดแทนได้ เช่น แสงอาทิตย์ ลม",
+        "examples": [
+          "Investment in renewable energy has grown rapidly in recent years.",
+          "Some argue renewable sources cannot yet meet baseload demand.",
+          "Storage technology is vital to integrate renewable power into the grid."
+        ],
+        "synonyms": [
+          "sustainable",
+          "regenerative"
+        ],
+        "antonyms": [
+          "non-renewable",
+          "finite"
+        ],
+        "word_forms": [
+          "renewables (noun plural)",
+          "renewability (noun)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Very Common"
+      },
+      {
+        "word": "Fossil fuels",
+        "part_of_speech": "Noun",
+        "meaning_en": "Coal, oil, and natural gas formed from ancient organic matter.",
+        "meaning_th": "เชื้อเพลิงฟอสซิล ได้แก่ ถ่านหิน น้ำมัน และก๊าซธรรมชาติ",
+        "examples": [
+          "Reducing dependence on fossil fuels is central to climate policy.",
+          "Subsidies can distort markets in favour of fossil fuels.",
+          "Technological innovation may ease the transition away from fossil fuels."
+        ],
+        "synonyms": [
+          "coal, oil, gas (collective)"
+        ],
+        "antonyms": [
+          "renewables"
+        ],
+        "word_forms": [
+          "fossil-fuelled/fueled (adjective)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Very Common"
+      },
+      {
+        "word": "Carbon footprint",
+        "part_of_speech": "Noun",
+        "meaning_en": "The amount of greenhouse gases emitted by a person, company, or product.",
+        "meaning_th": "ปริมาณก๊าซเรือนกระจกที่ปล่อยโดยบุคคล องค์กร หรือผลิตภัณฑ์",
+        "examples": [
+          "Individuals can shrink their carbon footprint by flying less.",
+          "Companies disclose their carbon footprint in sustainability reports.",
+          "Dietary shifts can substantially reduce one’s carbon footprint."
+        ],
+        "synonyms": [
+          "emissions profile",
+          "GHG output"
+        ],
+        "antonyms": [
+          "carbon neutrality"
+        ],
+        "word_forms": [
+          "carbon-neutral (adjective)",
+          "carbon offset (noun)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Very Common"
+      },
+      {
+        "word": "Mitigation",
+        "part_of_speech": "Noun",
+        "meaning_en": "Actions to reduce the severity of climate change by limiting emissions.",
+        "meaning_th": "การบรรเทา/ลดความรุนแรงของการเปลี่ยนแปลงสภาพภูมิอากาศโดยลดการปล่อย",
+        "examples": [
+          "Mitigation requires rapid decarbonisation of the power sector.",
+          "Carbon pricing is a key mitigation instrument.",
+          "Urban design influences mitigation through transport choices."
+        ],
+        "synonyms": [
+          "reduction",
+          "alleviation"
+        ],
+        "antonyms": [
+          "aggravation"
+        ],
+        "word_forms": [
+          "mitigate (verb)",
+          "mitigative (adjective)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Common"
+      },
+      {
+        "word": "Adaptation",
+        "part_of_speech": "Noun",
+        "meaning_en": "Adjustments to reduce harm from climate impacts or to exploit beneficial opportunities.",
+        "meaning_th": "การปรับตัวเพื่อลดผลกระทบจากสภาพภูมิอากาศหรือใช้ประโยชน์จากโอกาส",
+        "examples": [
+          "Coastal adaptation includes seawalls and managed retreat.",
+          "Adaptation planning must consider vulnerable populations.",
+          "Early-warning systems are an effective adaptation measure."
+        ],
+        "synonyms": [
+          "adjustment",
+          "accommodation"
+        ],
+        "antonyms": [
+          "maladaptation"
+        ],
+        "word_forms": [
+          "adapt (verb)",
+          "adaptive (adjective)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Common"
+      },
+      {
+        "word": "Ecosystem",
+        "part_of_speech": "Noun",
+        "meaning_en": "A community of living organisms interacting with their environment.",
+        "meaning_th": "ระบบนิเวศ: ชุมชนของสิ่งมีชีวิตที่ปฏิสัมพันธ์กับสิ่งแวดล้อม",
+        "examples": [
+          "Wetland ecosystems provide flood protection and water purification.",
+          "Disrupting one species can destabilise an entire ecosystem.",
+          "Restoration aims to return damaged ecosystems to functionality."
+        ],
+        "synonyms": [
+          "ecological system",
+          "biome"
+        ],
+        "antonyms": [
+          "—"
+        ],
+        "word_forms": [
+          "ecosystems (plural)",
+          "ecosystemic (adjective)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Very Common"
+      },
+      {
+        "word": "Degradation",
+        "part_of_speech": "Noun",
+        "meaning_en": "Deterioration of land, water, or ecosystems due to natural or human causes.",
+        "meaning_th": "ความเสื่อมโทรมของดิน น้ำ หรือระบบนิเวศจากธรรมชาติหรือมนุษย์",
+        "examples": [
+          "Soil degradation reduces agricultural productivity.",
+          "Plastic pollution contributes to marine ecosystem degradation.",
+          "Policy reform is needed to reverse environmental degradation."
+        ],
+        "synonyms": [
+          "deterioration",
+          "decline"
+        ],
+        "antonyms": [
+          "restoration",
+          "recovery"
+        ],
+        "word_forms": [
+          "degrade (verb)",
+          "degraded (adjective)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Common"
+      },
+      {
+        "word": "Habitat",
+        "part_of_speech": "Noun",
+        "meaning_en": "The natural home of a plant or animal.",
+        "meaning_th": "ถิ่นที่อยู่อาศัยตามธรรมชาติของพืชหรือสัตว์",
+        "examples": [
+          "Road building fragments wildlife habitat.",
+          "Protected areas safeguard critical habitats for endangered species.",
+          "Habitat restoration can be cost-effective with community support."
+        ],
+        "synonyms": [
+          "environment",
+          "home range"
+        ],
+        "antonyms": [
+          "—"
+        ],
+        "word_forms": [
+          "habitats (plural)",
+          "habitat loss (phrase)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Very Common"
+      },
+      {
+        "word": "Endangered",
+        "part_of_speech": "Adjective",
+        "meaning_en": "At serious risk of extinction.",
+        "meaning_th": "เสี่ยงสูญพันธุ์",
+        "examples": [
+          "Conservationists prioritise endangered species for immediate action.",
+          "Trade restrictions aim to protect endangered wildlife.",
+          "Captive breeding can help recover endangered populations."
+        ],
+        "synonyms": [
+          "threatened",
+          "imperilled"
+        ],
+        "antonyms": [
+          "abundant",
+          "secure"
+        ],
+        "word_forms": [
+          "endanger (verb)",
+          "endangerment (noun)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Common"
+      },
+      {
+        "word": "Pollution",
+        "part_of_speech": "Noun",
+        "meaning_en": "Introduction of harmful substances or contaminants into the environment.",
+        "meaning_th": "มลพิษ: การปล่อยสารอันตรายสู่สิ่งแวดล้อม",
+        "examples": [
+          "Air pollution disproportionately affects low-income communities.",
+          "Policies targeting pollution can yield immediate health benefits.",
+          "Monitoring stations track pollution levels across the city."
+        ],
+        "synonyms": [
+          "contamination",
+          "fouling"
+        ],
+        "antonyms": [
+          "purification"
+        ],
+        "word_forms": [
+          "pollute (verb)",
+          "pollutant (noun)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Very Common"
+      },
+      {
+        "word": "Waste management",
+        "part_of_speech": "Noun",
+        "meaning_en": "The collection, transport, processing, and disposal of waste materials.",
+        "meaning_th": "การจัดการของเสียตั้งแต่เก็บ ขน ส่ง และกำจัด",
+        "examples": [
+          "Improved waste management reduces landfill dependence.",
+          "Informal workers play a key role in urban waste management.",
+          "Policies should prioritise waste reduction over disposal."
+        ],
+        "synonyms": [
+          "waste handling",
+          "garbage management"
+        ],
+        "antonyms": [
+          "wastefulness"
+        ],
+        "word_forms": [
+          "waste-managed (adjective)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Common"
+      },
+      {
+        "word": "Recycling",
+        "part_of_speech": "Noun",
+        "meaning_en": "Processing used materials to make them suitable for reuse.",
+        "meaning_th": "การรีไซเคิล: แปรรูปวัสดุใช้แล้วเพื่อนำกลับมาใช้ใหม่",
+        "examples": [
+          "Household recycling rates vary widely between cities.",
+          "Clear labelling can encourage proper recycling behaviour.",
+          "Recycling alone is insufficient without reducing consumption."
+        ],
+        "synonyms": [
+          "reprocessing",
+          "repurposing"
+        ],
+        "antonyms": [
+          "landfilling"
+        ],
+        "word_forms": [
+          "recycle (verb)",
+          "recyclable (adjective)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Very Common"
+      },
+      {
+        "word": "Watershed",
+        "part_of_speech": "Noun",
+        "meaning_en": "An area of land that drains into a particular river or body of water.",
+        "meaning_th": "ลุ่มน้ำ: พื้นที่ที่ระบายน้ำลงสู่แม่น้ำหรือแหล่งน้ำเดียวกัน",
+        "examples": [
+          "Watershed management is vital for flood prevention.",
+          "Agricultural runoff can degrade watershed quality.",
+          "Transboundary cooperation is needed for shared watersheds."
+        ],
+        "synonyms": [
+          "drainage basin",
+          "catchment"
+        ],
+        "antonyms": [
+          "—"
+        ],
+        "word_forms": [
+          "watersheds (plural)"
+        ],
+        "difficulty": "Tier 2",
+        "frequency": "Sometimes"
+      },
+      {
+        "word": "Desertification",
+        "part_of_speech": "Noun",
+        "meaning_en": "Land degradation in arid areas, often due to drought and human activities.",
+        "meaning_th": "กระบวนการแปรสภาพพื้นที่ให้กลายเป็นทะเลทรายจากความแห้งแล้งและกิจกรรมมนุษย์",
+        "examples": [
+          "Desertification threatens livelihoods in semi-arid regions.",
+          "Afforestation can help combat desertification.",
+          "Overgrazing is a common driver of desertification."
+        ],
+        "synonyms": [
+          "land aridification",
+          "dryland degradation"
+        ],
+        "antonyms": [
+          "land restoration"
+        ],
+        "word_forms": [
+          "desertify (verb)",
+          "desertified (adjective)"
+        ],
+        "difficulty": "Tier 2",
+        "frequency": "Common"
+      },
+      {
+        "word": "Afforestation",
+        "part_of_speech": "Noun",
+        "meaning_en": "Planting trees in areas that previously had no forest.",
+        "meaning_th": "การปลูกป่าในพื้นที่ที่เดิมไม่มีป่า",
+        "examples": [
+          "Afforestation projects can create jobs and absorb carbon.",
+          "Poor species selection can limit the benefits of afforestation.",
+          "Afforestation must respect local ecosystems and water use."
+        ],
+        "synonyms": [
+          "forest creation"
+        ],
+        "antonyms": [
+          "deforestation"
+        ],
+        "word_forms": [
+          "afforest (verb)",
+          "afforested (adjective)"
+        ],
+        "difficulty": "Tier 2",
+        "frequency": "Common"
+      }
+    ]
+  }
+]

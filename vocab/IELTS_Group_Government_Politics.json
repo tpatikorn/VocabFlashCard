@@ -1,0 +1,33 @@
+[
+  {
+    "group_name": "Government & Politics",
+    "word_list": [
+      {
+        "word": "Legislation",
+        "part_of_speech": "Noun",
+        "meaning_en": "Laws considered collectively or the process of making laws.",
+        "meaning_th": "กฎหมาย; กระบวนการตรากฎหมาย",
+        "examples": [
+          "New legislation aims to protect the environment.",
+          "The government passed legislation to improve education.",
+          "Legislation often requires debate in parliament before approval."
+        ],
+        "synonyms": [
+          "law",
+          "statute",
+          "regulation"
+        ],
+        "antonyms": [
+          "anarchy",
+          "lawlessness"
+        ],
+        "word_forms": [
+          "legislate (v.)",
+          "legislator (n.)"
+        ],
+        "difficulty": "Tier 2",
+        "frequency": "High"
+      }
+    ]
+  }
+]

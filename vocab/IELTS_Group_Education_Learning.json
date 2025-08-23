@@ -1,0 +1,741 @@
+[
+  {
+    "group_name": "Education & Learning",
+    "word_list": [
+      {
+        "word": "Scholarship",
+        "part_of_speech": "Noun",
+        "meaning_en": "A financial award supporting a student's education, often merit-based.",
+        "meaning_th": "ทุนการศึกษาที่มอบให้เพื่อสนับสนุนการเรียน มักอิงผลการเรียนหรือความสามารถ",
+        "examples": [
+          "She secured a scholarship due to her outstanding academic record.",
+          "Many applicants rely on scholarships to offset rising tuition fees.",
+          "Winning a scholarship can broaden access to higher education for disadvantaged students."
+        ],
+        "synonyms": [
+          "grant",
+          "bursary",
+          "fellowship"
+        ],
+        "antonyms": [
+          "tuition fee",
+          "self-funding"
+        ],
+        "word_forms": [
+          "scholar (noun)",
+          "scholarly (adjective)",
+          "scholarship (noun)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Very Common"
+      },
+      {
+        "word": "Curriculum",
+        "part_of_speech": "Noun",
+        "meaning_en": "The subjects and content taught in a course or programme of study.",
+        "meaning_th": "หลักสูตรหรือเนื้อหาวิชาที่สอนในรายวิชาหรือโปรแกรมการศึกษา",
+        "examples": [
+          "The national curriculum emphasizes critical thinking over rote learning.",
+          "Schools should regularly update their curricula to reflect technological change.",
+          "A well-designed curriculum balances theory with practical application."
+        ],
+        "synonyms": [
+          "syllabus",
+          "programme",
+          "course of study"
+        ],
+        "antonyms": [
+          "improvisation"
+        ],
+        "word_forms": [
+          "curricula (plural)",
+          "curricular (adjective)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Very Common"
+      },
+      {
+        "word": "Pedagogy",
+        "part_of_speech": "Noun",
+        "meaning_en": "The theory and practice of teaching and learning.",
+        "meaning_th": "ทฤษฎีและวิธีการสอน",
+        "examples": [
+          "Modern pedagogy encourages student-centred learning.",
+          "Effective pedagogy integrates feedback and formative assessment.",
+          "Digital tools have transformed traditional pedagogy in many classrooms."
+        ],
+        "synonyms": [
+          "teaching method",
+          "instruction",
+          "didactics"
+        ],
+        "antonyms": [
+          "—"
+        ],
+        "word_forms": [
+          "pedagogical (adjective)",
+          "pedagogue (noun)"
+        ],
+        "difficulty": "Tier 2",
+        "frequency": "Common"
+      },
+      {
+        "word": "Literacy",
+        "part_of_speech": "Noun",
+        "meaning_en": "The ability to read and write; also competence in a specific field.",
+        "meaning_th": "ความสามารถในการอ่านเขียน หรือความรอบรู้ในสาขาหนึ่ง",
+        "examples": [
+          "Improving adult literacy can boost employment prospects.",
+          "Digital literacy is essential for success in modern workplaces.",
+          "National policies aim to close regional literacy gaps."
+        ],
+        "synonyms": [
+          "reading ability",
+          "competence",
+          "fluency"
+        ],
+        "antonyms": [
+          "illiteracy"
+        ],
+        "word_forms": [
+          "literate (adjective)",
+          "illiterate (adjective)",
+          "literacies (plural)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Very Common"
+      },
+      {
+        "word": "Vocational",
+        "part_of_speech": "Adjective",
+        "meaning_en": "Relating to practical training and skills for specific occupations.",
+        "meaning_th": "เกี่ยวกับการฝึกทักษะวิชาชีพเชิงปฏิบัติ",
+        "examples": [
+          "Vocational programmes equip students with job-ready skills.",
+          "Some argue vocational education is undervalued compared to university degrees.",
+          "Apprenticeships provide vocational pathways into high-demand trades."
+        ],
+        "synonyms": [
+          "technical",
+          "occupational",
+          "career-oriented"
+        ],
+        "antonyms": [
+          "academic (in contrast)"
+        ],
+        "word_forms": [
+          "vocation (noun)",
+          "vocationally (adverb)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Common"
+      },
+      {
+        "word": "Extracurricular",
+        "part_of_speech": "Adjective",
+        "meaning_en": "Activities outside the regular academic curriculum.",
+        "meaning_th": "กิจกรรมนอกหลักสูตร",
+        "examples": [
+          "Extracurricular activities can strengthen university applications.",
+          "Debate clubs are popular extracurricular options among high school students.",
+          "Time management is crucial when balancing study and extracurricular commitments."
+        ],
+        "synonyms": [
+          "after-school",
+          "co-curricular"
+        ],
+        "antonyms": [
+          "curricular"
+        ],
+        "word_forms": [
+          "extracurricularly (adverb)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Common"
+      },
+      {
+        "word": "Assessment",
+        "part_of_speech": "Noun",
+        "meaning_en": "The process of evaluating students' learning and performance.",
+        "meaning_th": "กระบวนการประเมินผลการเรียนรู้ของผู้เรียน",
+        "examples": [
+          "Formative assessment helps teachers adjust instruction in real time.",
+          "Standardised assessments may not capture creativity and problem-solving.",
+          "A mix of assessment types can provide a fairer picture of ability."
+        ],
+        "synonyms": [
+          "evaluation",
+          "appraisal",
+          "testing"
+        ],
+        "antonyms": [
+          "guesswork"
+        ],
+        "word_forms": [
+          "assess (verb)",
+          "assessor (noun)",
+          "assessable (adjective)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Very Common"
+      },
+      {
+        "word": "Plagiarism",
+        "part_of_speech": "Noun",
+        "meaning_en": "Using someone else's work or ideas without proper acknowledgment.",
+        "meaning_th": "การคัดลอกผลงานหรือความคิดของผู้อื่นโดยไม่อ้างอิง",
+        "examples": [
+          "Universities impose strict penalties for plagiarism.",
+          "Software can detect plagiarism in student submissions.",
+          "Teaching citation skills reduces unintentional plagiarism."
+        ],
+        "synonyms": [
+          "copying",
+          "infringement"
+        ],
+        "antonyms": [
+          "originality",
+          "attribution"
+        ],
+        "word_forms": [
+          "plagiarise (verb)",
+          "plagiarist (noun)",
+          "plagiarised/plagiarized (adjective)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Common"
+      },
+      {
+        "word": "Cohort",
+        "part_of_speech": "Noun",
+        "meaning_en": "A group of students treated as a unit for study or statistics.",
+        "meaning_th": "กลุ่มนักศึกษาที่เรียนหรือเก็บสถิติตามรุ่นเดียวกัน",
+        "examples": [
+          "This year's cohort shows higher engagement in online modules.",
+          "Outcomes were compared across three cohorts over five years.",
+          "Large cohort sizes can strain teaching resources."
+        ],
+        "synonyms": [
+          "group",
+          "class",
+          "year group"
+        ],
+        "antonyms": [
+          "individual"
+        ],
+        "word_forms": [
+          "cohorts (plural)"
+        ],
+        "difficulty": "Tier 2",
+        "frequency": "Sometimes"
+      },
+      {
+        "word": "Prerequisite",
+        "part_of_speech": "Noun",
+        "meaning_en": "A course or requirement that must be completed before another.",
+        "meaning_th": "รายวิชาหรือเงื่อนไขที่ต้องผ่านก่อนลงวิชาถัดไป",
+        "examples": [
+          "Calculus is a prerequisite for advanced engineering modules.",
+          "Language proficiency is often a prerequisite for admission.",
+          "Removing unnecessary prerequisites can shorten time to graduation."
+        ],
+        "synonyms": [
+          "requirement",
+          "precondition"
+        ],
+        "antonyms": [
+          "optional",
+          "elective"
+        ],
+        "word_forms": [
+          "prerequisite (adjective)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Common"
+      },
+      {
+        "word": "Seminar",
+        "part_of_speech": "Noun",
+        "meaning_en": "A small-group class focused on discussion and interaction.",
+        "meaning_th": "ชั้นเรียนกลุ่มย่อยที่เน้นการอภิปราย",
+        "examples": [
+          "Seminars encourage deeper engagement with complex texts.",
+          "Attendance at weekly seminars is mandatory in many programmes.",
+          "Online seminars can increase access for working students."
+        ],
+        "synonyms": [
+          "workshop",
+          "discussion class"
+        ],
+        "antonyms": [
+          "lecture (contrast)"
+        ],
+        "word_forms": [
+          "seminars (plural)",
+          "seminar-based (adjective)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Common"
+      },
+      {
+        "word": "Dissertation",
+        "part_of_speech": "Noun",
+        "meaning_en": "A long essay or thesis submitted for a degree, based on original research.",
+        "meaning_th": "วิทยานิพนธ์หรือผลงานวิจัยยาวที่ยื่นเพื่อรับปริญญา",
+        "examples": [
+          "Her dissertation explores climate policy in emerging economies.",
+          "Choosing a feasible topic is crucial for a successful dissertation.",
+          "The dissertation requires rigorous methodology and ethical approval."
+        ],
+        "synonyms": [
+          "thesis",
+          "research paper"
+        ],
+        "antonyms": [
+          "—"
+        ],
+        "word_forms": [
+          "dissertations (plural)",
+          "dissertation supervisor (phrase)"
+        ],
+        "difficulty": "Tier 2",
+        "frequency": "Sometimes"
+      },
+      {
+        "word": "Faculty",
+        "part_of_speech": "Noun",
+        "meaning_en": "The academic staff of a university; also a division within a university.",
+        "meaning_th": "คณาจารย์ หรือคณะ/ส่วนงานในมหาวิทยาลัย",
+        "examples": [
+          "The faculty voted to revise the grading policy.",
+          "She joined the Faculty of Education as a lecturer.",
+          "Faculty-student collaboration enhances learning outcomes."
+        ],
+        "synonyms": [
+          "academic staff",
+          "department",
+          "school"
+        ],
+        "antonyms": [
+          "students (contrast)"
+        ],
+        "word_forms": [
+          "faculties (plural)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Common"
+      },
+      {
+        "word": "Enrollment",
+        "part_of_speech": "Noun",
+        "meaning_en": "The act of registering for a course; the number of students registered.",
+        "meaning_th": "การลงทะเบียนเรียน หรือจำนวนผู้ลงทะเบียน",
+        "examples": [
+          "Enrollment has surged since the introduction of online options.",
+          "Declining enrollment poses financial challenges for small colleges.",
+          "Early enrollment can secure access to limited-seating classes."
+        ],
+        "synonyms": [
+          "registration",
+          "admission"
+        ],
+        "antonyms": [
+          "withdrawal"
+        ],
+        "word_forms": [
+          "enrol/enroll (verb)",
+          "enrolment/enrollment (noun)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Common"
+      },
+      {
+        "word": "Tuition",
+        "part_of_speech": "Noun",
+        "meaning_en": "The fee paid for instruction; also private teaching.",
+        "meaning_th": "ค่าเล่าเรียน หรือการสอนพิเศษ",
+        "examples": [
+          "Rising tuition has intensified student debt.",
+          "Some universities freeze tuition to remain competitive.",
+          "Private tuition can help bridge learning gaps."
+        ],
+        "synonyms": [
+          "fees",
+          "instruction"
+        ],
+        "antonyms": [
+          "scholarship (contrast)"
+        ],
+        "word_forms": [
+          "tuition fees (plural phrase)",
+          "tuition-free (adjective)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Very Common"
+      },
+      {
+        "word": "Bursary",
+        "part_of_speech": "Noun",
+        "meaning_en": "A sum of money awarded to a student based on need or merit.",
+        "meaning_th": "เงินช่วยเหลือ/ทุนการศึกษาจำนวนหนึ่ง มักตามความจำเป็นหรือความดีความชอบ",
+        "examples": [
+          "Low-income students may apply for a bursary.",
+          "The college expanded its bursary scheme to improve access.",
+          "Bursaries complement scholarships to widen participation."
+        ],
+        "synonyms": [
+          "grant",
+          "scholarship",
+          "financial aid"
+        ],
+        "antonyms": [
+          "self-funding"
+        ],
+        "word_forms": [
+          "bursaries (plural)",
+          "bursar (noun)"
+        ],
+        "difficulty": "Tier 2",
+        "frequency": "Sometimes"
+      },
+      {
+        "word": "Accreditation",
+        "part_of_speech": "Noun",
+        "meaning_en": "Official recognition that an institution or program meets set standards.",
+        "meaning_th": "การรับรองมาตรฐานของสถาบันหรือหลักสูตร",
+        "examples": [
+          "Accreditation assures students of programme quality.",
+          "Loss of accreditation can severely damage a university's reputation.",
+          "External audits form part of the accreditation process."
+        ],
+        "synonyms": [
+          "certification",
+          "validation",
+          "endorsement"
+        ],
+        "antonyms": [
+          "disqualification"
+        ],
+        "word_forms": [
+          "accredit (verb)",
+          "accredited (adjective)"
+        ],
+        "difficulty": "Tier 2",
+        "frequency": "Common"
+      },
+      {
+        "word": "Differentiation",
+        "part_of_speech": "Noun",
+        "meaning_en": "Tailoring instruction to meet diverse learners' needs.",
+        "meaning_th": "การจัดการเรียนการสอนให้เหมาะสมกับผู้เรียนที่หลากหลาย",
+        "examples": [
+          "Differentiation allows advanced learners to progress more quickly.",
+          "Without differentiation, mixed-ability classes may disengage.",
+          "Technology can support differentiation through adaptive tasks."
+        ],
+        "synonyms": [
+          "individualisation",
+          "personalisation"
+        ],
+        "antonyms": [
+          "uniformity"
+        ],
+        "word_forms": [
+          "differentiate (verb)",
+          "differentiated (adjective)"
+        ],
+        "difficulty": "Tier 2",
+        "frequency": "Common"
+      },
+      {
+        "word": "Scaffold",
+        "part_of_speech": "Verb",
+        "meaning_en": "To provide temporary support to help learners achieve a task.",
+        "meaning_th": "การให้โครง/ตัวช่วยชั่วคราวเพื่อสนับสนุนการเรียนรู้",
+        "examples": [
+          "Teachers scaffold complex writing tasks with outlines and models.",
+          "Peer feedback can scaffold students’ critical thinking.",
+          "As competence grows, the teacher gradually removes the scaffold."
+        ],
+        "synonyms": [
+          "support",
+          "guide",
+          "aid"
+        ],
+        "antonyms": [
+          "overwhelm"
+        ],
+        "word_forms": [
+          "scaffolding (noun)",
+          "scaffolded (adjective)"
+        ],
+        "difficulty": "Tier 2",
+        "frequency": "Common"
+      },
+      {
+        "word": "Formative",
+        "part_of_speech": "Adjective",
+        "meaning_en": "Relating to assessment that informs ongoing learning, not final grading.",
+        "meaning_th": "เกี่ยวกับการประเมินเพื่อพัฒนาการเรียนรู้ระหว่างทาง",
+        "examples": [
+          "Formative feedback should be timely and specific.",
+          "Formative tasks reduce anxiety before high-stakes exams.",
+          "Most modules include both formative and summative assessments."
+        ],
+        "synonyms": [
+          "developmental",
+          "diagnostic"
+        ],
+        "antonyms": [
+          "summative"
+        ],
+        "word_forms": [
+          "formatively (adverb)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Common"
+      },
+      {
+        "word": "Summative",
+        "part_of_speech": "Adjective",
+        "meaning_en": "Relating to final evaluation of learning at the end of a unit or course.",
+        "meaning_th": "เกี่ยวกับการประเมินผลปลายภาค/ปลายหน่วย",
+        "examples": [
+          "The summative exam accounts for 60% of the final grade.",
+          "Projects can serve as authentic summative assessments.",
+          "Overreliance on summative testing may narrow the curriculum."
+        ],
+        "synonyms": [
+          "final",
+          "conclusive"
+        ],
+        "antonyms": [
+          "formative"
+        ],
+        "word_forms": [
+          "summatively (adverb)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Common"
+      },
+      {
+        "word": "Attendance",
+        "part_of_speech": "Noun",
+        "meaning_en": "The act of being present at classes or school.",
+        "meaning_th": "การเข้าชั้นเรียน",
+        "examples": [
+          "Poor attendance correlates with lower attainment.",
+          "Tracking attendance can identify students at risk of dropping out.",
+          "Flexible timetables improved attendance among part-time learners."
+        ],
+        "synonyms": [
+          "presence",
+          "participation"
+        ],
+        "antonyms": [
+          "absence"
+        ],
+        "word_forms": [
+          "attend (verb)",
+          "attendant (noun)",
+          "attendee (noun)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Very Common"
+      },
+      {
+        "word": "Matriculate",
+        "part_of_speech": "Verb",
+        "meaning_en": "To be admitted to a university or college.",
+        "meaning_th": "เข้าศึกษาในมหาวิทยาลัยอย่างเป็นทางการ",
+        "examples": [
+          "Students typically matriculate in September.",
+          "International applicants must meet language requirements to matriculate.",
+          "She matriculated at a leading research university."
+        ],
+        "synonyms": [
+          "enrol",
+          "register"
+        ],
+        "antonyms": [
+          "withdraw",
+          "drop out"
+        ],
+        "word_forms": [
+          "matriculation (noun)"
+        ],
+        "difficulty": "Tier 2",
+        "frequency": "Sometimes"
+      },
+      {
+        "word": "Didactic",
+        "part_of_speech": "Adjective",
+        "meaning_en": "Intended to teach, often in a moralizing or instructional manner.",
+        "meaning_th": "มุ่งสอน หรือแนวสั่งสอน",
+        "examples": [
+          "A didactic approach can feel rigid if overused.",
+          "The text is didactic, offering clear lessons for readers.",
+          "Balance didactic instruction with inquiry-based learning."
+        ],
+        "synonyms": [
+          "instructive",
+          "educational"
+        ],
+        "antonyms": [
+          "entertaining (contrast)"
+        ],
+        "word_forms": [
+          "didactically (adverb)",
+          "didacticism (noun)"
+        ],
+        "difficulty": "Tier 3",
+        "frequency": "Sometimes"
+      },
+      {
+        "word": "Inquiry-based",
+        "part_of_speech": "Adjective",
+        "meaning_en": "Driven by questions and exploration rather than direct instruction.",
+        "meaning_th": "เน้นการตั้งคำถามและการสำรวจมากกว่าการบอกสอนตรง",
+        "examples": [
+          "Inquiry-based learning fosters curiosity and independence.",
+          "Science curricula increasingly adopt inquiry-based projects.",
+          "Assessment must align with inquiry-based pedagogy to be effective."
+        ],
+        "synonyms": [
+          "exploratory",
+          "investigative"
+        ],
+        "antonyms": [
+          "didactic"
+        ],
+        "word_forms": [
+          "inquiry (noun)",
+          "inquire (verb)"
+        ],
+        "difficulty": "Tier 2",
+        "frequency": "Common"
+      },
+      {
+        "word": "Syllabus",
+        "part_of_speech": "Noun",
+        "meaning_en": "An outline of topics and requirements for a course.",
+        "meaning_th": "เอกสารสรุปหัวข้อและข้อกำหนดของรายวิชา",
+        "examples": [
+          "The syllabus clarifies weekly readings and deadlines.",
+          "Students should review the syllabus at the start of term.",
+          "Clear syllabi help manage expectations and workload."
+        ],
+        "synonyms": [
+          "course outline",
+          "curriculum"
+        ],
+        "antonyms": [
+          "—"
+        ],
+        "word_forms": [
+          "syllabi/syllabuses (plural)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Very Common"
+      },
+      {
+        "word": "Retention",
+        "part_of_speech": "Noun",
+        "meaning_en": "The ability to keep students enrolled; also memory of learned material.",
+        "meaning_th": "การคงอยู่ของนักศึกษาในระบบการศึกษา หรือการจดจำความรู้",
+        "examples": [
+          "Scholarship support can improve student retention.",
+          "Active recall techniques enhance retention of vocabulary.",
+          "Institutions monitor retention rates to evaluate success."
+        ],
+        "synonyms": [
+          "persistence",
+          "continuation",
+          "memory"
+        ],
+        "antonyms": [
+          "attrition",
+          "dropout"
+        ],
+        "word_forms": [
+          "retain (verb)",
+          "retentive (adjective)"
+        ],
+        "difficulty": "Tier 2",
+        "frequency": "Common"
+      },
+      {
+        "word": "Remedial",
+        "part_of_speech": "Adjective",
+        "meaning_en": "Intended to improve skills for students who are behind.",
+        "meaning_th": "เพื่อปรับพื้นฐานหรือแก้ไขจุดอ่อนของผู้เรียน",
+        "examples": [
+          "Remedial classes target fundamental literacy and numeracy.",
+          "Early diagnostic tests can identify students needing remedial support.",
+          "Remedial programmes are most effective when tailored to individual needs."
+        ],
+        "synonyms": [
+          "corrective",
+          "supportive"
+        ],
+        "antonyms": [
+          "advanced"
+        ],
+        "word_forms": [
+          "remediation (noun)",
+          "remediate (verb)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Common"
+      },
+      {
+        "word": "Proficiency",
+        "part_of_speech": "Noun",
+        "meaning_en": "A high degree of skill or competence in a subject or activity.",
+        "meaning_th": "ความชำนาญหรือความสามารถสูง",
+        "examples": [
+          "Language proficiency is essential for academic success.",
+          "The test measures reading and writing proficiency separately.",
+          "Regular practice is key to improving proficiency."
+        ],
+        "synonyms": [
+          "competence",
+          "skill",
+          "mastery"
+        ],
+        "antonyms": [
+          "incompetence"
+        ],
+        "word_forms": [
+          "proficient (adjective)",
+          "proficiently (adverb)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "Very Common"
+      },
+      {
+        "word": "Plenary",
+        "part_of_speech": "Noun",
+        "meaning_en": "A session attended by all participants, often to summarise learning.",
+        "meaning_th": "การประชุมรวม/สรุปที่ผู้เข้าร่วมทุกคนเข้าฟัง",
+        "examples": [
+          "The conference opened with a plenary on equity in education.",
+          "Plenaries can consolidate key points after group work.",
+          "A final plenary allowed students to reflect on outcomes."
+        ],
+        "synonyms": [
+          "general session",
+          "full meeting"
+        ],
+        "antonyms": [
+          "breakout"
+        ],
+        "word_forms": [
+          "plenary (adjective)"
+        ],
+        "difficulty": "Tier 3",
+        "frequency": "Sometimes"
+      }
+    ]
+  }
+]

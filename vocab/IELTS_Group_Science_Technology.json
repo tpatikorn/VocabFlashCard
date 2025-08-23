@@ -1,0 +1,81 @@
+[
+  {
+    "group_name": "Science & Technology",
+    "word_list": [
+      {
+        "word": "Innovation",
+        "part_of_speech": "Noun",
+        "meaning_en": "The introduction of new ideas, methods, or inventions.",
+        "meaning_th": "นวัตกรรม; การแนะนำความคิด วิธีการ หรือสิ่งประดิษฐ์ใหม่",
+        "examples": [
+          "Innovation is essential for economic growth in the modern world.",
+          "Universities play a key role in fostering technological innovation.",
+          "Innovation often requires both creativity and strong research."
+        ],
+        "synonyms": [
+          "invention",
+          "novelty",
+          "creation"
+        ],
+        "antonyms": [
+          "stagnation",
+          "imitation"
+        ],
+        "word_forms": [
+          "innovate (v.)",
+          "innovative (adj.)",
+          "innovator (n.)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "High"
+      },
+      {
+        "word": "Artificial Intelligence",
+        "part_of_speech": "Noun",
+        "meaning_en": "The simulation of human intelligence processes by machines, especially computers.",
+        "meaning_th": "ปัญญาประดิษฐ์; การจำลองกระบวนการทางปัญญาของมนุษย์โดยเครื่องจักรหรือคอมพิวเตอร์",
+        "examples": [
+          "Artificial intelligence is transforming industries such as healthcare and education.",
+          "Many experts debate the ethical implications of artificial intelligence.",
+          "Artificial intelligence can improve efficiency but may also replace certain jobs."
+        ],
+        "synonyms": [
+          "AI",
+          "machine intelligence"
+        ],
+        "antonyms": [
+          "human intelligence"
+        ],
+        "word_forms": [
+          "AI (abbr.)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "High"
+      },
+      {
+        "word": "Automation",
+        "part_of_speech": "Noun",
+        "meaning_en": "The use of technology to perform tasks without human intervention.",
+        "meaning_th": "ระบบอัตโนมัติ; การใช้เทคโนโลยีเพื่อทำงานโดยไม่ต้องมีการแทรกแซงจากมนุษย์",
+        "examples": [
+          "Automation has increased productivity in manufacturing industries.",
+          "The rise of automation could reduce the demand for low-skilled labor.",
+          "Automation in agriculture helps to feed a growing population."
+        ],
+        "synonyms": [
+          "mechanization",
+          "robotization"
+        ],
+        "antonyms": [
+          "manual labor"
+        ],
+        "word_forms": [
+          "automate (v.)",
+          "automated (adj.)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "High"
+      }
+    ]
+  }
+]

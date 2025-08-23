@@ -1,0 +1,33 @@
+[
+  {
+    "group_name": "Society & Culture",
+    "word_list": [
+      {
+        "word": "Tradition",
+        "part_of_speech": "Noun",
+        "meaning_en": "A custom or belief passed down through generations.",
+        "meaning_th": "ประเพณี; ขนบธรรมเนียมที่สืบทอดกันมา",
+        "examples": [
+          "Many festivals celebrate local traditions.",
+          "Tradition plays a crucial role in shaping cultural identity.",
+          "Some traditions evolve over time to suit modern society."
+        ],
+        "synonyms": [
+          "custom",
+          "heritage",
+          "practice"
+        ],
+        "antonyms": [
+          "innovation",
+          "modernity"
+        ],
+        "word_forms": [
+          "traditional (adj.)",
+          "traditionally (adv.)"
+        ],
+        "difficulty": "Tier 1",
+        "frequency": "High"
+      }
+    ]
+  }
+]

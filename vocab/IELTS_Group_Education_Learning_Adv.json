@@ -1,0 +1,29 @@
+[
+  {
+    "group_name": "Education & Learning & Adv",
+    "word_list": [
+      {
+        "word": "Curriculum",
+        "part_of_speech": "Noun",
+        "meaning_en": "The subjects comprising a course of study in a school or college.",
+        "meaning_th": "หลักสูตร; รายวิชาที่ประกอบเป็นการเรียนการสอน",
+        "examples": [
+          "The school revised its curriculum to include more STEM subjects.",
+          "A well-designed curriculum encourages critical thinking.",
+          "Teachers must follow the national curriculum guidelines."
+        ],
+        "synonyms": [
+          "syllabus",
+          "program",
+          "course plan"
+        ],
+        "antonyms": [],
+        "word_forms": [
+          "curricular (adj.)"
+        ],
+        "difficulty": "Tier 2",
+        "frequency": "High"
+      }
+    ]
+  }
+]

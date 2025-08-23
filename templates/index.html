@@ -10,33 +10,6 @@
         <div class="col-12 text-center">
             <h2>Improve Your Vocabulary with Adaptive Learning</h2>
             <p class="lead">Practice IELTS vocabulary words with our intelligent adaptive system that adjusts to your learning pace.</p>
-            
-            {% if not session['user'] %}
-                <div class="mt-4">
-                    <p>Please sign in to get started:</p>
-                    <div id="g_id_onload"
-                         data-client_id="{{ config['GOOGLE_CLIENT_ID'] or '771421745312-tldsnjuq5irbl0t9pg8g9eljgbqnv8hf.apps.googleusercontent.com' }}"
-                         data-context="signin"
-                         data-ux_mode="popup"
-                         data-login_uri="{{ url_for('flash_card.auth_callback', _external=True) }}"
-                         data-itp_support="true">
-                    </div>
-                    <div class="g_id_signin"
-                         data-type="standard"
-                         data-shape="pill"
-                         data-theme="outline"
-                         data-text="signin_with"
-                         data-size="large"
-                         data-logo_alignment="left">
-                    </div>
-                </div>
-            {% else %}
-                <div class="mt-4">
-                    <p>Welcome back, {{ session['user']['name'] }}!</p>
-                    <a href="{{ url_for('flash_card.dashboard') }}" class="btn btn-primary btn-lg">Go to Dashboard</a>
-                    <a href="{{ url_for('flash_card.practice') }}" class="btn btn-success btn-lg">Start Practicing</a>
-                </div>
-            {% endif %}
         </div>
     </div>
     

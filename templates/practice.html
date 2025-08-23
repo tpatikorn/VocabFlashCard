@@ -17,6 +17,13 @@
                                 <span id="timer" class="badge bg-secondary fs-5">20:00</span>
                                 <span class="ms-2">Time Remaining</span>
                             </div>
+                            <div class="text-center">
+                                <button id="start-session-btn" class="btn btn-success btn-lg">Start Session</button>
+                                <button id="end-session-btn" class="btn btn-danger btn-lg d-none">End Session</button>
+                            </div>
+                            <div>
+                                <div id="feedback" class="m-0"></div>
+                            </div>
                             <div>
                                 <span id="score" class="badge bg-primary fs-5">0</span>
                                 <span class="ms-2">Score</span>
@@ -40,27 +47,19 @@
                         <div class="card">
                             <div class="card-body text-center">
                                 <div id="word-display">
-                                    <h3 id="word-text" class="mb-3">Loading...</h3>
-                                    <p id="part-of-speech" class="text-muted"></p>
+                                    <span>
+                                        <span id="word-text" class="fs-3">Click "Start Session" to begin</span>
+                                        <span id="part-of-speech" class="text-muted m-1"></span>
+                                    </span>
+                                    
                                     <div id="hints" class="mt-3"></div>
                                 </div>
                                 
-                                <div id="choices-container" class="mt-4">
+                                <div id="choices-container" class="mt-4" style="display: grid; grid-template-columns: repeat(3, 30%); justify-content: center; gap: 1em;">
                                     <!-- Choices will be dynamically inserted here -->
                                 </div>
-                                
-                                <div id="feedback" class="mt-3"></div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                
-                <!-- Controls -->
-                <div class="row mt-4">
-                    <div class="col-12 text-center">
-                        <button id="start-session-btn" class="btn btn-success btn-lg">Start Session</button>
-                        <button id="next-word-btn" class="btn btn-primary btn-lg d-none">Next Word</button>
-                        <button id="end-session-btn" class="btn btn-danger btn-lg d-none">End Session</button>
                     </div>
                 </div>
             </div>
@@ -90,7 +89,6 @@
     const choicesContainer = document.getElementById('choices-container');
     const feedbackElement = document.getElementById('feedback');
     const startSessionBtn = document.getElementById('start-session-btn');
-    const nextWordBtn = document.getElementById('next-word-btn');
     const endSessionBtn = document.getElementById('end-session-btn');
     
     // Format time as MM:SS
@@ -157,11 +155,10 @@
                 scoreElement.textContent = totalScore;
                 
                 startSessionBtn.classList.add('d-none');
-                nextWordBtn.classList.remove('d-none');
                 endSessionBtn.classList.remove('d-none');
                 
                 startTimer();
-                loadNextWord();
+                nextWord();
             } else {
                 alert('Failed to start session: ' + data.error);
             }
@@ -173,11 +170,8 @@
     }
     
     // Load the next word for practice
-    function loadNextWord() {
-        // Clear previous feedback
-        feedbackElement.textContent = '';
-        feedbackElement.className = 'mt-3';
-        
+    function nextWord() {
+        // Clear previous feedback        
         fetch('/flash_card/api/next_word')
         .then(response => response.json())
         .then(data => {
@@ -190,7 +184,7 @@
             
             // Display word
             wordTextElement.textContent = data.word;
-            partOfSpeechElement.textContent = data.part_of_speech || '';
+            partOfSpeechElement.textContent = `(${data.part_of_speech || ''})`;
             
             // Display hints for level 0
             if (data.level === 0 && data.choices[0].hints) {
@@ -210,21 +204,20 @@
                 const button = document.createElement('button');
                 button.className = 'btn btn-outline-primary btn-lg m-2 choice-btn';
                 button.style.minWidth = '200px';
+                button.style.maxWidth = '400px';
                 
                 if (data.level >= 3) {
                     // Level 3+: Show only English
                     button.textContent = choice.text_en;
                 } else {
                     // Level 0-2: Show both English and Thai
-                    button.innerHTML = `${choice.text_en}<br><small class="text-muted">${choice.text_th}</small>`;
+                    button.innerHTML = choice.text_en || '';
+                    button.title = choice.text_th || '';
                 }
                 
                 button.onclick = () => selectChoice(index);
                 choicesContainer.appendChild(button);
             });
-            
-            // Disable next word button until answer is submitted
-            nextWordBtn.disabled = true;
         })
         .catch(error => {
             console.error('Error loading word:', error);
@@ -263,29 +256,23 @@
                 wordsCorrect++;
                 totalScore += data.points_earned;
                 feedbackElement.textContent = `Correct! +${data.points_earned} points`;
-                feedbackElement.className = 'mt-3 alert alert-success';
+                feedbackElement.className = 'm-0 alert alert-success';
             } else {
                 feedbackElement.textContent = 'Incorrect. Keep practicing!';
-                feedbackElement.className = 'mt-3 alert alert-danger';
+                feedbackElement.className = 'm-0 alert alert-danger';
             }
             
             scoreElement.textContent = totalScore;
             
-            // Enable next word button
-            nextWordBtn.disabled = false;
+            nextWord();
         })
         .catch(error => {
             console.error('Error submitting answer:', error);
             feedbackElement.textContent = 'Error submitting answer. Please try again.';
-            feedbackElement.className = 'mt-3 alert alert-warning';
+            feedbackElement.className = 'm-0 alert alert-warning';
         });
     }
-    
-    // Load next word
-    function nextWord() {
-        loadNextWord();
-    }
-    
+
     // End the practice session
     function endSession() {
         stopTimer();
@@ -323,7 +310,6 @@
                 
                 // Show start button again
                 startSessionBtn.classList.remove('d-none');
-                nextWordBtn.classList.add('d-none');
                 endSessionBtn.classList.add('d-none');
             } else {
                 alert('Failed to end session: ' + data.error);
@@ -337,7 +323,6 @@
     
     // Event listeners
     startSessionBtn.addEventListener('click', startSession);
-    nextWordBtn.addEventListener('click', nextWord);
     endSessionBtn.addEventListener('click', endSession);
     
     // Initialize

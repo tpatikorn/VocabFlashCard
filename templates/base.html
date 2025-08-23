@@ -15,11 +15,12 @@
 <header class="p-2 border-bottom">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="/flash_card/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-                Home
-            </a>
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-            </ul>
+            <h1>
+                <a href="/flash_card/" class="align-items-center text-dark text-decoration-none">
+                    Home
+                </a>
+            </h1>
+            <h1 class="text-muted" style="margin: auto">{% block header %}{% endblock %}</h1>
 
             {% if session['user'] %}
                 <div class="dropdown text-end">
@@ -66,11 +67,6 @@
                 </div>
             {% endif %}
         </div>
-    </div>
-</header>
-<header class="border-bottom">
-    <div class="container d-flex flex-wrap justify-content-center">
-        <span class="nav-link px-2 link-secondary"><h1>{% block header %}{% endblock %}</h1></span>
     </div>
 </header>
 

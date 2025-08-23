@@ -49,11 +49,9 @@ class UserWordLevelManager:
             cur = conn.cursor(cursor_factory=RealDictCursor)
             
             # Call the PostgreSQL function to update the level
-            cur.execute("""
-                SELECT update_user_word_level(%s, %s, %s)
-            """, (user_id, word_id, is_correct))
+            cur.execute("SELECT update_user_word_level(%s, %s, %s);", (user_id, word_id, is_correct))
             
-            new_level = cur.fetchone()[0]
+            new_level = cur.fetchone()['update_user_word_level']
             conn.commit()
             cur.close()
             conn.close()

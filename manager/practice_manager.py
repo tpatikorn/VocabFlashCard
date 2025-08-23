@@ -110,34 +110,20 @@ class PracticeManager:
                 choices.append(correct_choice)
                 
                 # Add distractors (incorrect choices)
-                # Get the group name for this word to find distractors in the same group
-                group_name = self.get_group_name_for_word(correct_word['id'])
-                if group_name:
-                    distractors = self.vocabulary_manager.get_distractors(correct_word, group_name, 3)
-                    for distractor in distractors:
-                        choices.append({
-                            'text_en': distractor['meaning_en'],
-                            'text_th': distractor['meaning_th'],
-                            'is_correct': False
-                        })
-                else:
-                    # Fallback distractors
-                    for i in range(3):
-                        choices.append({
-                            'text_en': f'Incorrect meaning {i+1}',
-                            'text_th': f'ความหมายที่ไม่ถูกต้อง {i+1}',
-                            'is_correct': False
-                        })
-                
+                distractors = self.vocabulary_manager.get_distractors(correct_word, 3)
+                for distractor in distractors:
+                    choices.append({
+                        'text_en': distractor['meaning_en'],
+                        'text_th': distractor['meaning_th'],
+                        'is_correct': False
+                    })
+
                 # Add hints for level 0 (synonyms and antonyms)
                 hints = []
                 if correct_word['synonyms']:
                     hints.extend([f"Synonym: {s}" for s in correct_word['synonyms'][:2]])
                 if correct_word['antonyms']:
                     hints.extend([f"Antonym: {a}" for a in correct_word['antonyms'][:2]])
-                
-                # Add hints to the correct choice
-                choices[0]['hints'] = hints[:3]  # Limit to 3 hints
                 
             elif level in [1, 2]:
                 # Level 1 & 2: Show both English and Thai meanings
@@ -151,7 +137,7 @@ class PracticeManager:
                 # Add distractors
                 group_name = self.get_group_name_for_word(correct_word['id'])
                 if group_name:
-                    distractors = self.vocabulary_manager.get_distractors(correct_word, group_name, 3)
+                    distractors = self.vocabulary_manager.get_distractors(correct_word, 3)
                     for distractor in distractors:
                         choices.append({
                             'text_en': distractor['meaning_en'],
@@ -174,31 +160,9 @@ class PracticeManager:
                     'is_correct': True
                 }
                 choices.append(correct_choice)
-                
-                # Add distractors
-                group_name = self.get_group_name_for_word(correct_word['id'])
-                distractor_count = 3 + (level - 2)  # More choices for higher levels
-                if group_name:
-                    distractors = self.vocabulary_manager.get_distractors(correct_word, group_name, distractor_count)
-                    for distractor in distractors:
-                        choices.append({
-                            'text_en': distractor['meaning_en'],
-                            'is_correct': False
-                        })
-                else:
-                    # Fallback distractors
-                    for i in range(distractor_count):
-                        choices.append({
-                            'text_en': f'Incorrect meaning {i+1}',
-                            'is_correct': False
-                        })
             
             # Shuffle choices
             random.shuffle(choices)
-            
-            # Remove the is_correct flag before sending to frontend
-            for choice in choices:
-                choice.pop('is_correct', None)
             
             return choices
             

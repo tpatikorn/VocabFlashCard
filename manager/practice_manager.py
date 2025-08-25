@@ -10,11 +10,11 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def get_next_word(user_id):
+def get_next_word(user_id, group_id=None):
     """Get the next word for practice based on adaptive difficulty"""
     try:
-        # Get user's word levels
-        words_with_levels = user_word_level_manager.get_user_words_with_levels(user_id)
+        # Get user's word levels for the specified group or all words if no group specified
+        words_with_levels = user_word_level_manager.get_user_words_with_levels(user_id, group_id)
         
         # Filter to words that have been practiced at least once or are at level 0
         # For new users, we'll select words at level 0
@@ -64,8 +64,8 @@ def get_next_word(user_id):
         else:
             time_limit = max(60 - (level - 2) * 5, 10)  # Minimum 10 seconds
         
-        # Generate choices based on level
-        choices = generate_choices(word_details, level, user_id)
+        # Generate choices based on level and group
+        choices = generate_choices(word_details, level, user_id, group_id)
         
         # Format the response
         word_response = {
@@ -85,7 +85,7 @@ def get_next_word(user_id):
         logger.error(f"Error getting next word: {e}")
         raise
 
-def generate_choices(correct_word, level, user_id):
+def generate_choices(correct_word, level, user_id, group_id=None):
     """Generate multiple choice options based on difficulty level"""
     try:
         # The first choice is always the correct answer
@@ -101,15 +101,15 @@ def generate_choices(correct_word, level, user_id):
             }
             choices.append(correct_choice)
             
-            # Add distractors (incorrect choices)
-            distractors = vocabulary_manager.get_distractors(correct_word, 3)
+            # Add distractors (incorrect choices) from the same group
+            distractors = vocabulary_manager.get_distractors(correct_word, 3, group_id)
             for distractor in distractors:
                 choices.append({
                     'text_en': distractor['meaning_en'],
                     'text_th': distractor['meaning_th'],
                     'is_correct': False
                 })
-
+            
             # Add hints for level 0 (synonyms and antonyms)
             hints = []
             if correct_word['synonyms']:
@@ -126,24 +126,14 @@ def generate_choices(correct_word, level, user_id):
             }
             choices.append(correct_choice)
             
-            # Add distractors
-            group_name = get_group_name_for_word(correct_word['id'])
-            if group_name:
-                distractors = vocabulary_manager.get_distractors(correct_word, 3)
-                for distractor in distractors:
-                    choices.append({
-                        'text_en': distractor['meaning_en'],
-                        'text_th': distractor['meaning_th'],
-                        'is_correct': False
-                    })
-            else:
-                # Fallback distractors
-                for i in range(3):
-                    choices.append({
-                        'text_en': f'Incorrect meaning {i+1}',
-                        'text_th': f'ความหมายที่ไม่ถูกต้อง {i+1}',
-                        'is_correct': False
-                    })
+            # Add distractors from the same group
+            distractors = vocabulary_manager.get_distractors(correct_word, 3, group_id)
+            for distractor in distractors:
+                choices.append({
+                    'text_en': distractor['meaning_en'],
+                    'text_th': distractor['meaning_th'],
+                    'is_correct': False
+                })
             
         else:
             # Level 3+: Show only English meanings
@@ -152,6 +142,14 @@ def generate_choices(correct_word, level, user_id):
                 'is_correct': True
             }
             choices.append(correct_choice)
+            
+            # Add distractors from the same group
+            distractors = vocabulary_manager.get_distractors(correct_word, 3, group_id)
+            for distractor in distractors:
+                choices.append({
+                    'text_en': distractor['meaning_en'],
+                    'is_correct': False
+                })
         
         # Shuffle choices
         random.shuffle(choices)

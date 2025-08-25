@@ -9,26 +9,42 @@
     <div class="row">
         <div class="col-12">
             <div id="practice-container">
+                <!-- Group selection -->
+                <div class="row mb-3" id="group-selection-section">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Select a Word Group</h5>
+                                <p class="card-text">Choose a group to practice vocabulary from:</p>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <a href="{{ url_for('flash_card.index') }}" class="btn btn-primary">Change Group</a>
+                                </div>
+                                {% if group_id %}
+                                <div id="group-info" data-group-id="{{ group_id }}" class="d-none"></div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <!-- Timer display -->
                 <div class="row mb-3">
                     <div class="col-12">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <span id="timer" class="badge bg-secondary fs-5">20:00</span>
+                        <div class="d-flex flex-wrap justify-content-between align-items-center">
+                            <div class="mb-2 mb-md-0">
+                                <span id="timer" class="badge bg-secondary fs-5">05:00</span>
                                 <span class="ms-2">Time Remaining</span>
                             </div>
-                            <div class="text-center">
+                            <div class="text-center mb-2 mb-md-0">
                                 <button id="start-session-btn" class="btn btn-success btn-lg">Start Session</button>
                                 <button id="end-session-btn" class="btn btn-danger btn-lg d-none">End Session</button>
                             </div>
-                            <div>
-                                <div id="feedback" class="m-0"></div>
-                            </div>
-                            <div>
+                            <div class="mb-2 mb-md-0">
                                 <span id="score" class="badge bg-primary fs-5">0</span>
                                 <span class="ms-2">Score</span>
                             </div>
                         </div>
+                        <div id="feedback" class="mt-2"></div>
                     </div>
                 </div>
                 
@@ -55,7 +71,7 @@
                                     <div id="hints" class="mt-3"></div>
                                 </div>
                                 
-                                <div id="choices-container" class="mt-4" style="display: grid; grid-template-columns: repeat(3, 30%); justify-content: center; gap: 1em;">
+                                <div id="choices-container" class="mt-4 d-flex flex-wrap justify-content-center gap-2">
                                     <!-- Choices will be dynamically inserted here -->
                                 </div>
                             </div>
@@ -78,7 +94,13 @@
     let wordsAttempted = 0;
     let wordsCorrect = 0;
     let timerInterval = null;
-    let timeRemaining = 20 * 60; // 20 minutes in seconds
+    let timeRemaining = 5 * 60; // 5 minutes in seconds
+    // Get group ID from template
+    let groupId = null;
+    const groupInfoElement = document.getElementById('group-info');
+    if (groupInfoElement) {
+        groupId = parseInt(groupInfoElement.getAttribute('data-group-id'));
+    }
     
     // DOM Elements
     const timerElement = document.getElementById('timer');
@@ -123,7 +145,7 @@
     
     // Start the session timer
     function startTimer() {
-        timeRemaining = 20 * 60; // Reset to 20 minutes
+        timeRemaining = 5 * 60; // Reset to 5 minutes
         timerElement.textContent = formatTime(timeRemaining);
         timerInterval = setInterval(updateTimer, 1000);
     }
@@ -138,11 +160,17 @@
     
     // Start a new practice session
     function startSession() {
+        const requestData = {};
+        if (groupId) {
+            requestData.group_id = groupId;
+        }
+        
         fetch('/flash_card/api/start_session', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify(requestData)
         })
         .then(response => response.json())
         .then(data => {
@@ -171,8 +199,9 @@
     
     // Load the next word for practice
     function nextWord() {
-        // Clear previous feedback        
-        fetch('/flash_card/api/next_word')
+        // Clear previous feedback
+        const url = groupId ? `/flash_card/api/next_word?group_id=${groupId}` : '/flash_card/api/next_word';
+        fetch(url)
         .then(response => response.json())
         .then(data => {
             if (data.error) {
@@ -202,9 +231,8 @@
             choicesContainer.innerHTML = '';
             data.choices.forEach((choice, index) => {
                 const button = document.createElement('button');
-                button.className = 'btn btn-outline-primary btn-lg m-2 choice-btn';
-                button.style.minWidth = '200px';
-                button.style.maxWidth = '400px';
+                button.className = 'btn btn-outline-primary btn-lg choice-btn';
+                button.style.minWidth = '150px';
                 
                 if (data.level >= 3) {
                     // Level 3+: Show only English

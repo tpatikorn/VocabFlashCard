@@ -7,7 +7,7 @@ import os
 from google.oauth2 import id_token
 from google.auth.transport.requests import Request
 
-from manager import auth_manager, practice_manager, practice_session_manager, synonym_game_manager, user_progress_manager
+from manager import auth_manager, practice_manager, practice_session_manager, synonym_game_manager, user_progress_manager, vocabulary_manager
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -24,7 +24,14 @@ def index():
     if 'user' in session:
         return redirect(url_for('flash_card.dashboard'))
     
-    return render_template('index.html')
+    # Get all word groups for selection
+    try:
+        groups = vocabulary_manager.get_all_groups()
+    except Exception as e:
+        logger.error(f"Error loading groups: {e}")
+        groups = []
+    
+    return render_template('index.html', groups=groups)
 
 @flash_card_bp.route('/dashboard')
 def dashboard():
@@ -64,7 +71,14 @@ def practice():
     if 'user' not in session:
         return redirect(url_for('flash_card.index'))
     
-    return render_template('practice.html')
+    group_id = request.args.get('group_id', None)
+    if group_id:
+        try:
+            group_id = int(group_id)
+        except ValueError:
+            group_id = None
+    
+    return render_template('practice.html', group_id=group_id)
 
 @flash_card_bp.route('/synonym-game')
 def synonym_game():
@@ -124,11 +138,16 @@ def start_practice_session():
         return jsonify({'error': 'Not authenticated'}), 401
     
     try:
+        data = request.get_json()
+        group_id = data.get('group_id') if data else None
+        
         user_id = session['user']['id']
         session_record = practice_session_manager.create_session(user_id)
         
-        # Store session ID in user session
+        # Store session ID and group ID in user session
         session['current_session_id'] = session_record['id']
+        if group_id:
+            session['current_group_id'] = group_id
         
         return jsonify({
             'status': 'Session started',
@@ -156,15 +175,16 @@ def end_practice_session():
         words_correct = data.get('words_correct', 0)
         
         session_record = practice_session_manager.end_session(
-            session_id, 
-            total_score, 
-            words_attempted, 
+            session_id,
+            total_score,
+            words_attempted,
             words_correct
         )
         
         # Clear session from user session
         session.pop('current_session_id', None)
         session.pop('practice_state', None)
+        session.pop('current_group_id', None)
         
         return jsonify({
             'status': 'Session ended',
@@ -185,9 +205,17 @@ def get_next_word():
     
     try:
         user_id = session['user']['id']
+        group_id = request.args.get('group_id')
+        if group_id:
+            try:
+                group_id = int(group_id)
+            except ValueError:
+                group_id = session.get('current_group_id')
+        else:
+            group_id = session.get('current_group_id')
         
         # Get next word using practice manager
-        word_response = practice_manager.get_next_word(user_id)
+        word_response = practice_manager.get_next_word(user_id, group_id)
         
         if not word_response:
             return jsonify({'error': 'No words available'}), 404
@@ -303,7 +331,8 @@ def get_next_synonym_round():
         # Prepare response
         round_data = {
             'meanings': meanings,
-            'words': all_words
+            'words': all_words,
+            'categories': synonym_pairs
         }
         
         # Store current round data in session for answer checking

@@ -41,7 +41,7 @@ def handle_google_callback(google_user_data):
     
     # Format user data for session storage
     session['user'] = {
-        'id': str(user['id']),
+        'id': user['id'],
         'google_id': user['google_id'],
         'email': user['email'],
         'name': user['name'],

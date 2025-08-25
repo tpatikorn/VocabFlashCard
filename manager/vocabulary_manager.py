@@ -9,9 +9,11 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
     
-def get_distractors(correct_word, count):
+def get_distractors(correct_word, count, group_id=None):
     """Get distractor words from the same group with some similarity"""
-    words_in_group = word_manager.get_words_by_group(correct_word['group_id'])
+    # Use the provided group_id or fallback to the word's group_id
+    target_group_id = group_id if group_id is not None else correct_word['group_id']
+    words_in_group = word_manager.get_words_by_group(target_group_id)
     
     # Remove the correct word from possible distractors
     distractor_candidates = [w for w in words_in_group if w.get('word') != correct_word.get('word')]
@@ -19,7 +21,7 @@ def get_distractors(correct_word, count):
     # Filter by similar part of speech if available
     if correct_word.get('part_of_speech'):
         distractor_candidates = [
-            w for w in distractor_candidates 
+            w for w in distractor_candidates
             if w.get('part_of_speech') == correct_word.get('part_of_speech')
         ]
     

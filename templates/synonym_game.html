@@ -43,32 +43,52 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <!-- Meanings boxes -->
+                                <!-- Three-box game area -->
                                 <div class="row mb-4">
-                                    <div class="col-md-6 mb-3 mb-md-0">
+                                    <!-- Left meaning box -->
+                                    <div class="col-md-3 mb-3 mb-md-0">
                                         <div class="border rounded p-3 h-100 d-flex flex-column meaning-box" id="meaning-box-1">
                                             <h5 class="text-center mb-3" id="meaning-1">Meaning 1</h5>
-                                            <div class="d-flex flex-wrap drop-zone" id="drop-zone-1" style="min-height: 100px;">
-                                                <!-- Words will be dropped here -->
+                                            <div class="d-flex flex-wrap word-container" id="meaning-1-words">
+                                                <!-- Words assigned to meaning 1 will appear here -->
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    
+                                    <!-- Middle word display -->
+                                    <div class="col-md-6 mb-3 mb-md-0">
+                                        <div class="border rounded p-3 h-100 d-flex flex-column align-items-center" id="word-display-box">
+                                            <h5 class="text-center mb-3">Current Word</h5>
+                                            <div class="word-display mb-3">
+                                                <span id="current-word" class="badge bg-success fs-4">Word</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between w-100">
+                                                <button id="left-arrow" class="btn btn-info arrow-btn">
+                                                    <i class="fas fa-arrow-left"></i> Meaning 1
+                                                </button>
+                                                <button id="right-arrow" class="btn btn-info arrow-btn">
+                                                    Meaning 2 <i class="fas fa-arrow-right"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Right meaning box -->
+                                    <div class="col-md-3">
                                         <div class="border rounded p-3 h-100 d-flex flex-column meaning-box" id="meaning-box-2">
                                             <h5 class="text-center mb-3" id="meaning-2">Meaning 2</h5>
-                                            <div class="d-flex flex-wrap drop-zone" id="drop-zone-2" style="min-height: 100px;">
-                                                <!-- Words will be dropped here -->
+                                            <div class="d-flex flex-wrap word-container" id="meaning-2-words">
+                                                <!-- Words assigned to meaning 2 will appear here -->
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <!-- Words pool -->
-                                <div class="row">
+                                <!-- Word progress -->
+                                <div class="row mb-3">
                                     <div class="col-12">
-                                        <h5 class="text-center mb-3">Drag words to the correct meaning:</h5>
-                                        <div class="d-flex flex-wrap justify-content-center" id="words-pool">
-                                            <!-- Words will be placed here -->
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <span id="words-remaining" class="badge bg-secondary">Words remaining: 0</span>
                                         </div>
                                     </div>
                                 </div>
@@ -84,8 +104,7 @@
                                 <div class="row mt-4">
                                     <div class="col-12 text-center">
                                         <button id="start-game-btn" class="btn btn-success btn-lg btn-game-control">Start Game</button>
-                                        <button id="next-round-btn" class="btn btn-primary btn-lg btn-game-control d-none">Next Round</button>
-                                        <button id="submit-round-btn" class="btn btn-warning btn-lg btn-game-control d-none">Submit Answers</button>
+                                        <button id="next-round-btn" class="btn btn-primary btn-lg btn-game-control d-none" disabled>Next Round</button>
                                         <button id="end-game-btn" class="btn btn-danger btn-lg btn-game-control d-none">End Game</button>
                                     </div>
                                 </div>
@@ -120,7 +139,11 @@
     let totalScore = 0;
     let timerInterval = null;
     let timeRemaining = 5 * 60; // 5 minutes in seconds
+    let currentWords = []; // Words for the current round
+    let currentWordIndex = 0; // Index of the current word being displayed
     let userAnswers = {}; // {word: meaning}
+    let correctAnswers = {}; // {word: correct meaning}
+    let roundScores = {}; // {word: score}
     
     // DOM Elements
     const timerElement = document.getElementById('timer');
@@ -128,18 +151,20 @@
     const roundElement = document.getElementById('round');
     const meaning1Element = document.getElementById('meaning-1');
     const meaning2Element = document.getElementById('meaning-2');
-    const wordsPoolElement = document.getElementById('words-pool');
-    const dropZone1Element = document.getElementById('drop-zone-1');
-    const dropZone2Element = document.getElementById('drop-zone-2');
+    const meaning1WordsElement = document.getElementById('meaning-1-words');
+    const meaning2WordsElement = document.getElementById('meaning-2-words');
+    const currentWordElement = document.getElementById('current-word');
+    const leftArrowBtn = document.getElementById('left-arrow');
+    const rightArrowBtn = document.getElementById('right-arrow');
     const roundFeedbackElement = document.getElementById('round-feedback');
     const gameProgressElement = document.getElementById('game-progress');
     const startGameBtn = document.getElementById('start-game-btn');
     const nextRoundBtn = document.getElementById('next-round-btn');
-    const submitRoundBtn = document.getElementById('submit-round-btn');
     const endGameBtn = document.getElementById('end-game-btn');
     const gameSummaryElement = document.getElementById('game-summary');
     const finalScoreElement = document.getElementById('final-score');
     const playAgainBtn = document.getElementById('play-again-btn');
+    const wordsRemainingElement = document.getElementById('words-remaining');
     
     // Format time as MM:SS
     function formatTime(seconds) {
@@ -224,13 +249,17 @@
         roundElement.textContent = currentRound;
         gameProgressElement.style.width = `${(currentRound / 5) * 100}%`;
         
-        // Clear previous words and drop zones
-        wordsPoolElement.innerHTML = '';
-        dropZone1Element.innerHTML = '';
-        dropZone2Element.innerHTML = '';
+        // Clear previous words and containers
+        meaning1WordsElement.innerHTML = '';
+        meaning2WordsElement.innerHTML = '';
+        currentWordElement.textContent = '';
         
-        // Reset user answers
+        // Reset user answers and game state
         userAnswers = {};
+        correctAnswers = {};
+        roundScores = {};
+        currentWords = [];
+        currentWordIndex = 0;
         
         fetch('/flash_card/api/synonym-game/next-round')
         .then(response => response.json())
@@ -243,37 +272,29 @@
             // Display meanings
             meaning1Element.textContent = data.meanings[0];
             meaning2Element.textContent = data.meanings[1];
+            leftArrowBtn.innerHTML = `⫷ ${data.meanings[0]}`;
+            rightArrowBtn.innerHTML = `${data.meanings[1]} ⫸`;
             
-            // Create word pills and add to pool
-            data.words.forEach(word => {
-                const wordPill = document.createElement('span');
-                wordPill.className = 'badge bg-light text-dark m-1 p-2 word-pill';
-                wordPill.textContent = word;
-                wordPill.style.cursor = 'grab';
-                wordPill.setAttribute('data-word', word);
-                wordPill.draggable = true;
-                
-                // Add drag events
-                wordPill.addEventListener('dragstart', handleDragStart);
-                wordPill.addEventListener('dragend', handleDragEnd);
-                
-                wordsPoolElement.appendChild(wordPill);
+            // Store correct answers
+            data.categories.forEach(category => {
+                category.words.forEach(word => {
+                    correctAnswers[word] = category.meaning;
+                });
             });
             
-            // Add drop events to drop zones
-            dropZone1Element.addEventListener('dragover', handleDragOver);
-            dropZone1Element.addEventListener('dragenter', handleDragEnter);
-            dropZone1Element.addEventListener('dragleave', handleDragLeave);
-            dropZone1Element.addEventListener('drop', (event) => handleDrop(event, data.meanings[0]));
+            // Store words for this round
+            currentWords = [...data.words];
             
-            dropZone2Element.addEventListener('dragover', handleDragOver);
-            dropZone2Element.addEventListener('dragenter', handleDragEnter);
-            dropZone2Element.addEventListener('dragleave', handleDragLeave);
-            dropZone2Element.addEventListener('drop', (event) => handleDrop(event, data.meanings[1]));
+            // Update words remaining display
+            updateWordsRemaining();
             
-            // Show submit button
-            nextRoundBtn.classList.add('d-none');
-            submitRoundBtn.classList.remove('d-none');
+            // Display the first word
+            if (currentWords.length > 0) {
+                displayCurrentWord();
+            }
+            
+            // Disable next round button until all words are processed
+            nextRoundBtn.disabled = true;
         })
         .catch(error => {
             console.error('Error loading round:', error);
@@ -281,45 +302,61 @@
         });
     }
     
-    // Drag and drop functions
-    function handleDragStart(event) {
-        event.dataTransfer.setData('text/plain', event.target.getAttribute('data-word'));
-        event.target.classList.add('dragging');
+    // Update words remaining display
+    function updateWordsRemaining() {
+        const remaining = currentWords.length - currentWordIndex;
+        wordsRemainingElement.textContent = `Words remaining: ${remaining}`;
     }
     
-    function handleDragEnd(event) {
-        event.target.classList.remove('dragging');
+    // Display the current word
+    function displayCurrentWord() {
+        if (currentWordIndex < currentWords.length) {
+            currentWordElement.textContent = currentWords[currentWordIndex];
+        } else {
+            currentWordElement.textContent = 'Round Complete!';
+            // All words processed, enable next round button
+            nextRoundBtn.disabled = false;
+        }
+        updateWordsRemaining();
     }
     
-    function handleDragOver(event) {
-        event.preventDefault();
-    }
-    
-    function handleDragEnter(event) {
-        event.preventDefault();
-        event.target.classList.add('drag-over');
-    }
-    
-    function handleDragLeave(event) {
-        event.target.classList.remove('drag-over');
-    }
-    
-    function handleDrop(event, meaning) {
-        event.preventDefault();
-        event.target.classList.remove('drag-over');
+    // Process word assignment
+    function processWordAssignment(meaningElement, meaningText) {
+        if (currentWordIndex >= currentWords.length) return;
         
-        const word = event.dataTransfer.getData('text/plain');
-        const wordPill = document.querySelector(`.word-pill[data-word="${word}"]`);
+        const word = currentWords[currentWordIndex];
+        userAnswers[word] = meaningText;
         
-        if (wordPill) {
-            // Remove from current location
-            wordPill.remove();
-            
-            // Add to drop zone
-            event.target.appendChild(wordPill);
-            
-            // Record user answer
-            userAnswers[word] = meaning;
+        // Create word pill
+        const wordPill = document.createElement('span');
+        wordPill.className = 'badge m-1 p-2 word-pill';
+        wordPill.textContent = word;
+        wordPill.setAttribute('data-word', word);
+        
+        // Check if answer is correct and set color
+        const isCorrect = correctAnswers[word] === meaningText;
+        if (isCorrect) {
+            wordPill.classList.add('bg-success'); // Green for correct
+            roundScores[word] = 10; // 10 points for correct answer
+        } else {
+            wordPill.classList.add('bg-danger'); // Red for incorrect
+            roundScores[word] = 0; // 0 points for incorrect answer
+        }
+        
+        // Add to the appropriate meaning box
+        meaningElement.appendChild(wordPill);
+        
+        // Update total score
+        totalScore += roundScores[word];
+        scoreElement.textContent = totalScore;
+        
+        // Move to next word
+        currentWordIndex++;
+        displayCurrentWord();
+        
+        // If all words are processed, enable next round button
+        if (currentWordIndex >= currentWords.length) {
+            nextRoundBtn.disabled = false;
         }
     }
     
@@ -342,7 +379,7 @@
             }
             
             // Update total score
-            totalScore += data.total_score;
+            totalScore = data.total_score;
             scoreElement.textContent = totalScore;
             
             // Show feedback
@@ -357,8 +394,6 @@
             roundFeedbackElement.innerHTML = feedbackHtml;
             
             // Hide submit button and show next round or end game button
-            submitRoundBtn.classList.add('d-none');
-            
             if (currentRound >= 5) {
                 endGame();
             } else {
@@ -374,7 +409,7 @@
     
     // Load next round
     function nextRound() {
-        loadNextRound();
+        submitRound();
     }
     
     // End the game
@@ -417,7 +452,11 @@
         currentRound = 1;
         totalScore = 0;
         timeRemaining = 5 * 60;
+        currentWords = [];
+        currentWordIndex = 0;
         userAnswers = {};
+        correctAnswers = {};
+        roundScores = {};
         
         // Reset UI
         scoreElement.textContent = totalScore;
@@ -430,24 +469,32 @@
         // Reset buttons
         startGameBtn.classList.remove('d-none');
         nextRoundBtn.classList.add('d-none');
-        submitRoundBtn.classList.add('d-none');
         endGameBtn.classList.add('d-none');
         
         // Clear game area
         meaning1Element.textContent = 'Meaning 1';
         meaning2Element.textContent = 'Meaning 2';
-        wordsPoolElement.innerHTML = '';
-        dropZone1Element.innerHTML = '';
-        dropZone2Element.innerHTML = '';
+        meaning1WordsElement.innerHTML = '';
+        meaning2WordsElement.innerHTML = '';
+        currentWordElement.textContent = '';
         roundFeedbackElement.innerHTML = '';
+        wordsRemainingElement.textContent = 'Words remaining: 0';
     }
     
     // Event listeners
     startGameBtn.addEventListener('click', startGame);
     nextRoundBtn.addEventListener('click', nextRound);
-    submitRoundBtn.addEventListener('click', submitRound);
     endGameBtn.addEventListener('click', endGame);
     playAgainBtn.addEventListener('click', playAgain);
+    
+    // Arrow button event listeners
+    leftArrowBtn.addEventListener('click', function() {
+        processWordAssignment(meaning1WordsElement, meaning1Element.textContent);
+    });
+    
+    rightArrowBtn.addEventListener('click', function() {
+        processWordAssignment(meaning2WordsElement, meaning2Element.textContent);
+    });
     
     // Initialize
     document.addEventListener('DOMContentLoaded', function() {

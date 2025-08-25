@@ -1,0 +1,458 @@
+{% extends "base.html" %}
+
+{% block title %}Synonym Game{% endblock %}
+
+{% block header %}Synonym Matching Game{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div id="game-container">
+                <!-- Game info -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span id="timer" class="badge bg-secondary fs-5">5:00</span>
+                                <span class="ms-2">Time Remaining</span>
+                            </div>
+                            <div>
+                                <span id="score" class="badge bg-primary fs-5">0</span>
+                                <span class="ms-2">Score</span>
+                            </div>
+                            <div>
+                                <span id="round" class="badge bg-info fs-5">1</span>
+                                <span class="ms-2">Round</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Progress bar -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="progress">
+                            <div id="game-progress" class="progress-bar" role="progressbar" style="width: 20%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game area -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- Meanings boxes -->
+                                <div class="row mb-4">
+                                    <div class="col-md-6 mb-3 mb-md-0">
+                                        <div class="border rounded p-3 h-100 d-flex flex-column meaning-box" id="meaning-box-1">
+                                            <h5 class="text-center mb-3" id="meaning-1">Meaning 1</h5>
+                                            <div class="d-flex flex-wrap drop-zone" id="drop-zone-1" style="min-height: 100px;">
+                                                <!-- Words will be dropped here -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="border rounded p-3 h-100 d-flex flex-column meaning-box" id="meaning-box-2">
+                                            <h5 class="text-center mb-3" id="meaning-2">Meaning 2</h5>
+                                            <div class="d-flex flex-wrap drop-zone" id="drop-zone-2" style="min-height: 100px;">
+                                                <!-- Words will be dropped here -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Words pool -->
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h5 class="text-center mb-3">Drag words to the correct meaning:</h5>
+                                        <div class="d-flex flex-wrap justify-content-center" id="words-pool">
+                                            <!-- Words will be placed here -->
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Feedback area -->
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <div id="round-feedback" class="text-center"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Controls -->
+                                <div class="row mt-4">
+                                    <div class="col-12 text-center">
+                                        <button id="start-game-btn" class="btn btn-success btn-lg btn-game-control">Start Game</button>
+                                        <button id="next-round-btn" class="btn btn-primary btn-lg btn-game-control d-none">Next Round</button>
+                                        <button id="submit-round-btn" class="btn btn-warning btn-lg btn-game-control d-none">Submit Answers</button>
+                                        <button id="end-game-btn" class="btn btn-danger btn-lg btn-game-control d-none">End Game</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game summary -->
+                <div class="row mt-4 d-none" id="game-summary">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <h3>Game Complete!</h3>
+                                <h4>Your Score: <span id="final-score">0</span> / 1000</h4>
+                                <button id="play-again-btn" class="btn btn-primary btn-lg mt-3 btn-game-control">Play Again</button>
+                                <a href="{{ url_for('flash_card.dashboard') }}" class="btn btn-secondary btn-lg mt-3 btn-game-control">Back to Dashboard</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Synonym Game JavaScript -->
+<script>
+    // Game state variables
+    let gameId = null;
+    let currentRound = 1;
+    let totalScore = 0;
+    let timerInterval = null;
+    let timeRemaining = 5 * 60; // 5 minutes in seconds
+    let userAnswers = {}; // {word: meaning}
+    
+    // DOM Elements
+    const timerElement = document.getElementById('timer');
+    const scoreElement = document.getElementById('score');
+    const roundElement = document.getElementById('round');
+    const meaning1Element = document.getElementById('meaning-1');
+    const meaning2Element = document.getElementById('meaning-2');
+    const wordsPoolElement = document.getElementById('words-pool');
+    const dropZone1Element = document.getElementById('drop-zone-1');
+    const dropZone2Element = document.getElementById('drop-zone-2');
+    const roundFeedbackElement = document.getElementById('round-feedback');
+    const gameProgressElement = document.getElementById('game-progress');
+    const startGameBtn = document.getElementById('start-game-btn');
+    const nextRoundBtn = document.getElementById('next-round-btn');
+    const submitRoundBtn = document.getElementById('submit-round-btn');
+    const endGameBtn = document.getElementById('end-game-btn');
+    const gameSummaryElement = document.getElementById('game-summary');
+    const finalScoreElement = document.getElementById('final-score');
+    const playAgainBtn = document.getElementById('play-again-btn');
+    
+    // Format time as MM:SS
+    function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+    
+    // Update timer display
+    function updateTimer() {
+        timerElement.textContent = formatTime(timeRemaining);
+        
+        // Change color when time is running low
+        if (timeRemaining <= 1 * 60) {
+            timerElement.classList.remove('bg-secondary');
+            timerElement.classList.add('bg-danger');
+        }
+        
+        // End game when time runs out
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            endGame();
+        }
+        
+        timeRemaining--;
+    }
+    
+    // Start the game timer
+    function startTimer() {
+        timeRemaining = 5 * 60; // Reset to 5 minutes
+        timerElement.textContent = formatTime(timeRemaining);
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+    
+    // Stop the game timer
+    function stopTimer() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+    }
+    
+    // Start a new game
+    function startGame() {
+        fetch('/flash_card/api/synonym-game/start', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'Game started') {
+                gameId = data.game_id;
+                currentRound = 1;
+                totalScore = 0;
+                scoreElement.textContent = totalScore;
+                roundElement.textContent = currentRound;
+                
+                startGameBtn.classList.add('d-none');
+                nextRoundBtn.classList.remove('d-none');
+                endGameBtn.classList.remove('d-none');
+                
+                startTimer();
+                loadNextRound();
+            } else {
+                alert('Failed to start game: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error starting game:', error);
+            alert('Failed to start game. Please try again.');
+        });
+    }
+    
+    // Load the next round
+    function loadNextRound() {
+        // Clear previous feedback
+        roundFeedbackElement.innerHTML = '';
+        
+        // Update round display
+        roundElement.textContent = currentRound;
+        gameProgressElement.style.width = `${(currentRound / 5) * 100}%`;
+        
+        // Clear previous words and drop zones
+        wordsPoolElement.innerHTML = '';
+        dropZone1Element.innerHTML = '';
+        dropZone2Element.innerHTML = '';
+        
+        // Reset user answers
+        userAnswers = {};
+        
+        fetch('/flash_card/api/synonym-game/next-round')
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert('Error loading round: ' + data.error);
+                return;
+            }
+            
+            // Display meanings
+            meaning1Element.textContent = data.meanings[0];
+            meaning2Element.textContent = data.meanings[1];
+            
+            // Create word pills and add to pool
+            data.words.forEach(word => {
+                const wordPill = document.createElement('span');
+                wordPill.className = 'badge bg-light text-dark m-1 p-2 word-pill';
+                wordPill.textContent = word;
+                wordPill.style.cursor = 'grab';
+                wordPill.setAttribute('data-word', word);
+                wordPill.draggable = true;
+                
+                // Add drag events
+                wordPill.addEventListener('dragstart', handleDragStart);
+                wordPill.addEventListener('dragend', handleDragEnd);
+                
+                wordsPoolElement.appendChild(wordPill);
+            });
+            
+            // Add drop events to drop zones
+            dropZone1Element.addEventListener('dragover', handleDragOver);
+            dropZone1Element.addEventListener('dragenter', handleDragEnter);
+            dropZone1Element.addEventListener('dragleave', handleDragLeave);
+            dropZone1Element.addEventListener('drop', (event) => handleDrop(event, data.meanings[0]));
+            
+            dropZone2Element.addEventListener('dragover', handleDragOver);
+            dropZone2Element.addEventListener('dragenter', handleDragEnter);
+            dropZone2Element.addEventListener('dragleave', handleDragLeave);
+            dropZone2Element.addEventListener('drop', (event) => handleDrop(event, data.meanings[1]));
+            
+            // Show submit button
+            nextRoundBtn.classList.add('d-none');
+            submitRoundBtn.classList.remove('d-none');
+        })
+        .catch(error => {
+            console.error('Error loading round:', error);
+            alert('Error loading round. Please try again.');
+        });
+    }
+    
+    // Drag and drop functions
+    function handleDragStart(event) {
+        event.dataTransfer.setData('text/plain', event.target.getAttribute('data-word'));
+        event.target.classList.add('dragging');
+    }
+    
+    function handleDragEnd(event) {
+        event.target.classList.remove('dragging');
+    }
+    
+    function handleDragOver(event) {
+        event.preventDefault();
+    }
+    
+    function handleDragEnter(event) {
+        event.preventDefault();
+        event.target.classList.add('drag-over');
+    }
+    
+    function handleDragLeave(event) {
+        event.target.classList.remove('drag-over');
+    }
+    
+    function handleDrop(event, meaning) {
+        event.preventDefault();
+        event.target.classList.remove('drag-over');
+        
+        const word = event.dataTransfer.getData('text/plain');
+        const wordPill = document.querySelector(`.word-pill[data-word="${word}"]`);
+        
+        if (wordPill) {
+            // Remove from current location
+            wordPill.remove();
+            
+            // Add to drop zone
+            event.target.appendChild(wordPill);
+            
+            // Record user answer
+            userAnswers[word] = meaning;
+        }
+    }
+    
+    // Submit round answers
+    function submitRound() {
+        fetch('/flash_card/api/synonym-game/submit-round', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                answers: userAnswers
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert('Error submitting round: ' + data.error);
+                return;
+            }
+            
+            // Update total score
+            totalScore += data.total_score;
+            scoreElement.textContent = totalScore;
+            
+            // Show feedback
+            let feedbackHtml = '<div class="alert alert-info">';
+            feedbackHtml += '<h5>Round Results:</h5>';
+            data.scores.forEach(score => {
+                feedbackHtml += `<p>${score.meaning}: ${score.correct}/${score.total} correct (${score.percentage.toFixed(1)}%)</p>`;
+            });
+            feedbackHtml += `<p><strong>Round Score: ${data.total_score}/${data.max_possible_score}</strong></p>`;
+            feedbackHtml += '</div>';
+            
+            roundFeedbackElement.innerHTML = feedbackHtml;
+            
+            // Hide submit button and show next round or end game button
+            submitRoundBtn.classList.add('d-none');
+            
+            if (currentRound >= 5) {
+                endGame();
+            } else {
+                nextRoundBtn.classList.remove('d-none');
+                currentRound++;
+            }
+        })
+        .catch(error => {
+            console.error('Error submitting round:', error);
+            alert('Error submitting round. Please try again.');
+        });
+    }
+    
+    // Load next round
+    function nextRound() {
+        loadNextRound();
+    }
+    
+    // End the game
+    function endGame() {
+        stopTimer();
+        
+        fetch('/flash_card/api/synonym-game/end', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'Game ended') {
+                // Show game summary
+                finalScoreElement.textContent = data.total_score;
+                
+                // Hide game container and show summary
+                document.getElementById('game-container').classList.add('d-none');
+                gameSummaryElement.classList.remove('d-none');
+            } else {
+                alert('Failed to end game: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error ending game:', error);
+            alert('Failed to end game. Please try again.');
+        });
+    }
+    
+    // Play again
+    function playAgain() {
+        // Hide summary and show game container
+        gameSummaryElement.classList.add('d-none');
+        document.getElementById('game-container').classList.remove('d-none');
+        
+        // Reset game state
+        gameId = null;
+        currentRound = 1;
+        totalScore = 0;
+        timeRemaining = 5 * 60;
+        userAnswers = {};
+        
+        // Reset UI
+        scoreElement.textContent = totalScore;
+        roundElement.textContent = currentRound;
+        timerElement.textContent = formatTime(timeRemaining);
+        timerElement.classList.remove('bg-danger');
+        timerElement.classList.add('bg-secondary');
+        gameProgressElement.style.width = '20%';
+        
+        // Reset buttons
+        startGameBtn.classList.remove('d-none');
+        nextRoundBtn.classList.add('d-none');
+        submitRoundBtn.classList.add('d-none');
+        endGameBtn.classList.add('d-none');
+        
+        // Clear game area
+        meaning1Element.textContent = 'Meaning 1';
+        meaning2Element.textContent = 'Meaning 2';
+        wordsPoolElement.innerHTML = '';
+        dropZone1Element.innerHTML = '';
+        dropZone2Element.innerHTML = '';
+        roundFeedbackElement.innerHTML = '';
+    }
+    
+    // Event listeners
+    startGameBtn.addEventListener('click', startGame);
+    nextRoundBtn.addEventListener('click', nextRound);
+    submitRoundBtn.addEventListener('click', submitRound);
+    endGameBtn.addEventListener('click', endGame);
+    playAgainBtn.addEventListener('click', playAgain);
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+        // Game might already be active, check with backend
+        // For simplicity, we'll assume no active game at page load
+    });
+</script>
+{% endblock %}

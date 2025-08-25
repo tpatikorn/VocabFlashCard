@@ -123,5 +123,51 @@
             </div>
         </div>
     </div>
+    
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Synonym Game</h5>
+                </div>
+                <div class="card-body">
+                    <p>Test your knowledge with our synonym matching game!</p>
+                    <a href="{{ url_for('flash_card.synonym_game') }}" class="btn btn-success">Play Synonym Game</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Recent Synonym Games</h5>
+                </div>
+                <div class="card-body">
+                    {% if game_history %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for game in game_history %}
+                                    <tr>
+                                        <td>{{ game.played_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                                        <td>{{ game.total_score }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p>No synonym games played yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -1,12 +1,9 @@
 -- Database initialization script for Vocabulary Learning App
 -- This script creates all necessary tables for the application
 
--- Enable uuid extension for generating unique identifiers
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
 -- Users table to store user information from Google OAuth
 CREATE TABLE users (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id SERIAL PRIMARY KEY,
     google_id VARCHAR(255) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     given_name VARCHAR(255) NOT NULL,
@@ -19,15 +16,15 @@ CREATE TABLE users (
 
 -- Word groups table (from JSON files)
 CREATE TABLE word_groups (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id SERIAL PRIMARY KEY,
     name VARCHAR(255) UNIQUE NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Words table (from JSON files)
 CREATE TABLE words (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    group_id UUID REFERENCES word_groups(id) ON DELETE CASCADE,
+    id SERIAL PRIMARY KEY,
+    group_id INTEGER REFERENCES word_groups(id) ON DELETE CASCADE,
     word TEXT NOT NULL,
     part_of_speech VARCHAR(50),
     meaning_en TEXT NOT NULL,
@@ -49,9 +46,9 @@ CREATE INDEX idx_words_frequency ON words(frequency);
 
 -- User word levels table (for tracking user progress)
 CREATE TABLE user_word_levels (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-    word_id UUID REFERENCES words(id) ON DELETE CASCADE,
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    word_id INTEGER REFERENCES words(id) ON DELETE CASCADE,
     level INTEGER NOT NULL DEFAULT 0 CHECK (level >= 0),
     last_practiced TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
@@ -65,8 +62,8 @@ CREATE INDEX idx_user_word_levels_level ON user_word_levels(level);
 
 -- Practice sessions table
 CREATE TABLE practice_sessions (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     start_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     end_time TIMESTAMP WITH TIME ZONE,
     total_score INTEGER DEFAULT 0,
@@ -80,10 +77,10 @@ CREATE INDEX idx_practice_sessions_start_time ON practice_sessions(start_time);
 
 -- User progress table (for tracking individual word attempts)
 CREATE TABLE user_progress (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-    word_id UUID REFERENCES words(id) ON DELETE CASCADE,
-    session_id UUID REFERENCES practice_sessions(id) ON DELETE CASCADE,
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    word_id INTEGER REFERENCES words(id) ON DELETE CASCADE,
+    session_id INTEGER REFERENCES practice_sessions(id) ON DELETE CASCADE,
     level_at_time INTEGER NOT NULL,
     is_correct BOOLEAN NOT NULL,
     time_taken INTEGER, -- in seconds
@@ -98,8 +95,8 @@ CREATE INDEX idx_user_progress_attempted_at ON user_progress(attempted_at);
 
 -- User statistics aggregation table (for faster dashboard queries)
 CREATE TABLE user_statistics (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     week_start DATE NOT NULL,
     words_correct INTEGER DEFAULT 0,
     total_words_practiced INTEGER DEFAULT 0,
@@ -112,9 +109,33 @@ CREATE TABLE user_statistics (
 CREATE INDEX idx_user_statistics_user_id ON user_statistics(user_id);
 CREATE INDEX idx_user_statistics_week_start ON user_statistics(week_start);
 
+-- Synonyms table for the synonym game
+CREATE TABLE synonyms (
+    id SERIAL PRIMARY KEY,
+    category VARCHAR(255) NOT NULL,
+    meaning VARCHAR(255) NOT NULL,
+    words TEXT[] NOT NULL
+);
+
+-- Synonym games table to track game sessions
+CREATE TABLE synonym_games (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    played_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Synonym scores table to track scores for each round of a game
+CREATE TABLE synonym_scores (
+    id SERIAL PRIMARY KEY,
+    game_id INTEGER REFERENCES synonym_games(id) ON DELETE CASCADE,
+    subgame_order INTEGER NOT NULL,
+    meaning VARCHAR(255) NOT NULL,
+    score DOUBLE PRECISION NOT NULL
+);
+
 -- Create a view for current user word levels (combines latest progress with current levels)
 CREATE OR REPLACE VIEW current_user_word_levels AS
-SELECT 
+SELECT
     uwl.user_id,
     uwl.word_id,
     uwl.level,
@@ -127,14 +148,14 @@ JOIN words w ON uwl.word_id = w.id;
 
 -- Create a view for user group performance
 CREATE OR REPLACE VIEW user_group_performance AS
-SELECT 
+SELECT
     up.user_id,
     w.group_id,
     wg.name as group_name,
     COUNT(up.id) as total_words_practiced,
     SUM(CASE WHEN up.is_correct THEN 1 ELSE 0 END) as correct_answers,
     ROUND(
-        AVG(CASE WHEN up.is_correct THEN 1.0 ELSE 0.0 END) * 100, 
+        AVG(CASE WHEN up.is_correct THEN 1.0 ELSE 0.0 END) * 100,
         2
     ) as accuracy_rate,
     MAX(up.attempted_at) as last_practiced
@@ -145,8 +166,8 @@ GROUP BY up.user_id, w.group_id, wg.name;
 
 -- Function to update user word level based on correctness
 CREATE OR REPLACE FUNCTION update_user_word_level(
-    p_user_id UUID,
-    p_word_id UUID,
+    p_user_id INTEGER,
+    p_word_id INTEGER,
     p_is_correct BOOLEAN
 ) RETURNS INTEGER AS $$
 DECLARE
@@ -173,7 +194,7 @@ BEGIN
     END IF;
     
     -- Update the level
-    UPDATE user_word_levels 
+    UPDATE user_word_levels
     SET level = new_level, last_practiced = CURRENT_TIMESTAMP
     WHERE user_id = p_user_id AND word_id = p_word_id;
     
@@ -182,7 +203,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Function to get user statistics for the past week
-CREATE OR REPLACE FUNCTION get_user_weekly_stats(p_user_id UUID)
+CREATE OR REPLACE FUNCTION get_user_weekly_stats(p_user_id INTEGER)
 RETURNS TABLE(
     correct_words INTEGER,
     total_words INTEGER,
@@ -191,13 +212,13 @@ RETURNS TABLE(
 ) AS $$
 BEGIN
     RETURN QUERY
-    SELECT 
+    SELECT
         SUM(CASE WHEN up.is_correct THEN 1 ELSE 0 END)::INTEGER as correct_words,
         COUNT(*)::INTEGER as total_words,
         ROUND(AVG(CASE WHEN up.is_correct THEN 1.0 ELSE 0.0 END) * 100, 2)::NUMERIC as accuracy_rate,
         SUM(up.level_at_time + 1)::INTEGER as total_score
     FROM user_progress up
-    WHERE up.user_id = p_user_id 
+    WHERE up.user_id = p_user_id
     AND up.attempted_at >= CURRENT_DATE - INTERVAL '7 days';
 END;
 $$ LANGUAGE plpgsql;

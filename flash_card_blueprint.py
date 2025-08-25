@@ -1,10 +1,13 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify, current_app
+import random
+from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
 import logging
 import requests
 import json
 import os
 from google.oauth2 import id_token
 from google.auth.transport.requests import Request
+
+from manager import auth_manager, practice_manager, practice_session_manager, synonym_game_manager, user_progress_manager
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -31,24 +34,29 @@ def dashboard():
     
     try:
         # Get user statistics
-        stats = current_app.user_statistics_manager.get_or_update_weekly_stats(session['user']['id'])
+        stats = user_progress_manager.get_or_update_weekly_stats(session['user']['id'])
         
         # Get group performance
-        group_performance = current_app.user_progress_manager.get_user_group_performance(session['user']['id'])
+        group_performance = user_progress_manager.get_user_group_performance(session['user']['id'])
         
         # Get recent sessions
-        recent_sessions = current_app.practice_session_manager.get_user_sessions(session['user']['id'], limit=5)
+        recent_sessions = practice_session_manager.get_user_sessions(session['user']['id'], limit=5)
+        
+        # Get synonym game history
+        game_history = synonym_game_manager.get_game_history(session['user']['id'], limit=5)
         
         return render_template('dashboard.html', 
                              stats=stats, 
                              group_performance=group_performance,
-                             recent_sessions=recent_sessions)
+                             recent_sessions=recent_sessions,
+                             game_history=game_history)
     except Exception as e:
         logger.error(f"Error loading dashboard: {e}")
         return render_template('dashboard.html', 
                              stats={}, 
                              group_performance=[],
-                             recent_sessions=[])
+                             recent_sessions=[],
+                             game_history=[])
 
 @flash_card_bp.route('/practice')
 def practice():
@@ -58,11 +66,19 @@ def practice():
     
     return render_template('practice.html')
 
+@flash_card_bp.route('/synonym-game')
+def synonym_game():
+    """Synonym game page"""
+    if 'user' not in session:
+        return redirect(url_for('flash_card.index'))
+    
+    return render_template('synonym_game.html')
+
 @flash_card_bp.route('/auth/login')
 def login():
     """Redirect to Google OAuth login"""
     redirect_uri = url_for('flash_card.auth_callback', _external=True)
-    auth_url = current_app.auth_manager.get_google_auth_url(redirect_uri)
+    auth_url = auth_manager.get_google_auth_url(redirect_uri)
     return redirect(auth_url)
 
 @flash_card_bp.route('/auth/callback', methods=['POST'])
@@ -84,7 +100,7 @@ def auth_callback():
         }
         
         # Handle authentication and get user data for session
-        session_user = current_app.auth_manager.handle_google_callback(google_user_data)
+        session_user = auth_manager.handle_google_callback(google_user_data)
         
         # Store user in session
         session['user'] = session_user
@@ -109,14 +125,14 @@ def start_practice_session():
     
     try:
         user_id = session['user']['id']
-        session_record = current_app.practice_session_manager.create_session(user_id)
+        session_record = practice_session_manager.create_session(user_id)
         
         # Store session ID in user session
-        session['current_session_id'] = str(session_record['id'])
+        session['current_session_id'] = session_record['id']
         
         return jsonify({
             'status': 'Session started',
-            'session_id': str(session_record['id']),
+            'session_id': session_record['id'],
             'start_time': session_record['start_time'].isoformat()
         })
     except Exception as e:
@@ -139,7 +155,7 @@ def end_practice_session():
         words_attempted = data.get('words_attempted', 0)
         words_correct = data.get('words_correct', 0)
         
-        session_record = current_app.practice_session_manager.end_session(
+        session_record = practice_session_manager.end_session(
             session_id, 
             total_score, 
             words_attempted, 
@@ -152,7 +168,7 @@ def end_practice_session():
         
         return jsonify({
             'status': 'Session ended',
-            'session_id': str(session_record['id']),
+            'session_id': session_record['id'],
             'total_score': session_record['total_score'],
             'words_attempted': session_record['words_attempted'],
             'words_correct': session_record['words_correct']
@@ -171,7 +187,7 @@ def get_next_word():
         user_id = session['user']['id']
         
         # Get next word using practice manager
-        word_response = current_app.practice_manager.get_next_word(user_id)
+        word_response = practice_manager.get_next_word(user_id)
         
         if not word_response:
             return jsonify({'error': 'No words available'}), 404
@@ -217,7 +233,7 @@ def submit_answer():
         session_id = session.get('current_session_id')
         
         # Submit answer using practice manager
-        result = current_app.practice_manager.submit_answer(
+        result = practice_manager.submit_answer(
             user_id=session['user']['id'],
             word_id=session['current_word']['word_id'],
             selected_choice_index=selected_choice_index,
@@ -234,3 +250,197 @@ def submit_answer():
     except Exception as e:
         logger.error(f"Error submitting answer: {e}")
         return jsonify({'error': 'Failed to submit answer'}), 500
+
+@flash_card_bp.route('/api/synonym-game/start', methods=['POST'])
+def start_synonym_game():
+    """Start a new synonym game"""
+    if 'user' not in session:
+        return jsonify({'error': 'Not authenticated'}), 401
+
+    user_id = session['user']['id']
+    
+    # Start a new game
+    game = synonym_game_manager.start_new_game(user_id)
+    
+    # Store game ID in session
+    session['current_synonym_game_id'] = game['id']
+    session['current_synonym_game_round'] = 1
+    
+    return jsonify({
+        'status': 'Game started',
+        'game_id': game['id'],
+        'played_at': game['played_at'].isoformat()
+    })
+
+
+@flash_card_bp.route('/api/synonym-game/next-round', methods=['GET'])
+def get_next_synonym_round():
+    """Get the next round of the synonym game"""
+    if 'user' not in session:
+        return jsonify({'error': 'Not authenticated'}), 401
+    
+    if 'current_synonym_game_id' not in session:
+        return jsonify({'error': 'No active game'}), 400
+    
+    try:
+        # Get two random synonym pairs
+        synonym_pairs = synonym_game_manager.get_random_synonym_pairs(2)
+        
+        if len(synonym_pairs) < 2:
+            return jsonify({'error': 'Not enough synonym data available'}), 404
+        
+        # Combine all words from both pairs
+        all_words = []
+        meanings = []
+        
+        for pair in synonym_pairs:
+            all_words.extend(pair['words'])
+            meanings.append(pair['meaning'])
+        
+        # Shuffle the words
+        random.shuffle(all_words)
+        
+        # Prepare response
+        round_data = {
+            'meanings': meanings,
+            'words': all_words
+        }
+        
+        # Store current round data in session for answer checking
+        session['current_synonym_round_data'] = {
+            'meanings': meanings,
+            'words': all_words,
+            'correct_mappings': {}
+        }
+        
+        # Create mapping of words to their correct meanings
+        for pair in synonym_pairs:
+            for word in pair['words']:
+                session['current_synonym_round_data']['correct_mappings'][word] = pair['meaning']
+        
+        return jsonify(round_data)
+        
+    except Exception as e:
+        logger.error(f"Error getting next synonym round: {e}")
+        return jsonify({'error': 'Failed to get next round'}), 500
+
+@flash_card_bp.route('/api/synonym-game/submit-round', methods=['POST'])
+def submit_synonym_round():
+    """Submit answers for a round of the synonym game"""
+    if 'user' not in session:
+        return jsonify({'error': 'Not authenticated'}), 401
+    
+    if 'current_synonym_game_id' not in session:
+        return jsonify({'error': 'No active game'}), 400
+    
+    if 'current_synonym_round_data' not in session:
+        return jsonify({'error': 'No active round'}), 400
+    
+    try:
+        data = request.get_json()
+        user_answers = data.get('answers', {})  # {word: meaning}
+        
+        # Get correct mappings
+        correct_mappings = session['current_synonym_round_data']['correct_mappings']
+        meanings = session['current_synonym_round_data']['meanings']
+        
+        # Calculate scores for each meaning
+        meaning_scores = {meaning: {'correct': 0, 'total': 0} for meaning in meanings}
+        
+        # Check each answer
+        for word, selected_meaning in user_answers.items():
+            correct_meaning = correct_mappings.get(word)
+            if correct_meaning:
+                meaning_scores[correct_meaning]['total'] += 1
+                if selected_meaning == correct_meaning:
+                    meaning_scores[correct_meaning]['correct'] += 1
+        
+        # Calculate percentage scores for each meaning
+        round_scores = []
+        game_id = session['current_synonym_game_id']
+        round_number = session.get('current_synonym_game_round', 1)
+        
+        total_round_score = 0
+        for meaning, stats in meaning_scores.items():
+            if stats['total'] > 0:
+                percentage = (stats['correct'] / stats['total']) * 100
+                round_scores.append({
+                    'meaning': meaning,
+                    'correct': stats['correct'],
+                    'total': stats['total'],
+                    'percentage': percentage
+                })
+                
+                # Record score in database
+                score_record = synonym_game_manager.record_round_score(
+                    game_id, round_number, meaning, percentage
+                )
+                total_round_score += percentage
+            else:
+                round_scores.append({
+                    'meaning': meaning,
+                    'correct': 0,
+                    'total': 0,
+                    'percentage': 0
+                })
+                
+                # Record score in database
+                score_record = synonym_game_manager.record_round_score(
+                    game_id, round_number, meaning, 0
+                )
+        
+        # Update round number in session
+        session['current_synonym_game_round'] = round_number + 1
+        
+        # Clear current round data
+        session.pop('current_synonym_round_data', None)
+        
+        return jsonify({
+            'status': 'Round submitted',
+            'scores': round_scores,
+            'total_score': total_round_score,
+            'max_possible_score': 200  # 100% for each of the 2 meanings
+        })
+        
+    except Exception as e:
+        logger.error(f"Error submitting synonym round: {e}")
+        return jsonify({'error': 'Failed to submit round'}), 500
+
+@flash_card_bp.route('/api/synonym-game/end', methods=['POST'])
+def end_synonym_game():
+    """End the current synonym game"""
+    if 'user' not in session:
+        return jsonify({'error': 'Not authenticated'}), 401
+    
+    if 'current_synonym_game_id' not in session:
+        return jsonify({'error': 'No active game'}), 400
+    
+    try:
+        game_id = session['current_synonym_game_id']
+        
+        # Get total game score
+        game_details = synonym_game_manager.get_game_details(game_id)
+        if game_details:
+            total_score = sum(
+                score['score'] 
+                for round_data in game_details['rounds'] 
+                for score in round_data['scores']
+            )
+        else:
+            total_score = 0
+        
+        # Clear game from session
+        session.pop('current_synonym_game_id', None)
+        session.pop('current_synonym_game_round', None)
+        session.pop('current_synonym_round_data', None)
+        
+        return jsonify({
+            'status': 'Game ended',
+            'game_id': game_id,
+            'total_score': total_score,
+            'max_possible_score': 1000  # 5 rounds * 2 meanings * 100 points each
+        })
+        
+    except Exception as e:
+        logger.error(f"Error ending synonym game: {e}")
+        return jsonify({'error': 'Failed to end game'}), 500

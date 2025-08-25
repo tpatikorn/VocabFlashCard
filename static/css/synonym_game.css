@@ -1,0 +1,95 @@
+/* Synonym Game Styles */
+
+/* Word pill styles */
+.word-pill {
+    font-size: 1rem;
+    margin: 0.25rem;
+    cursor: grab;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.word-pill:hover {
+    transform: scale(1.05);
+}
+
+.word-pill.dragging {
+    opacity: 0.5;
+}
+
+/* Drop zone styles */
+.drop-zone {
+    min-height: 100px;
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    padding: 1rem;
+    transition: all 0.2s ease;
+}
+
+.drop-zone.drag-over {
+    border-color: #007bff;
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+/* Meaning box styles */
+.meaning-box {
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    min-height: 200px;
+    transition: all 0.2s ease;
+}
+
+.meaning-box.correct {
+    border-color: #28a745;
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+.meaning-box.incorrect {
+    border-color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+/* Feedback styles */
+.correct-word {
+    background-color: #d4edda !important;
+    color: #155724 !important;
+}
+
+.incorrect-word {
+    background-color: #f8d7da !important;
+    color: #721c24 !important;
+}
+
+/* Timer warning styles */
+.timer-warning {
+    background-color: #ffc107 !important;
+}
+
+.timer-danger {
+    background-color: #dc3545 !important;
+}
+
+/* Progress bar styles */
+.progress-bar {
+    transition: width 0.3s ease;
+}
+
+/* Button styles */
+.btn-game-control {
+    margin: 0.25rem;
+    min-width: 120px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .meaning-box {
+        min-height: 150px;
+        margin-bottom: 1rem;
+    }
+    
+    .btn-game-control {
+        min-width: 100px;
+        font-size: 0.9rem;
+    }
+}

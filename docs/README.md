@@ -14,6 +14,7 @@ A Flask-based web application designed to help users learn vocabulary through ad
 - Word progression system based on correct/incorrect answers
 - 20-minute practice sessions with global timer
 - Detailed performance tracking and statistics
+- Synonym matching game with drag-and-drop interface
 
 ## Prerequisites
 
@@ -44,7 +45,7 @@ A Flask-based web application designed to help users learn vocabulary through ad
    - Create a PostgreSQL database
    - Run the `init.sql` script to create the necessary tables:
      ```
-     psql -U your_username -d your_database -f init.sql
+     psql -U your_username -d your_database -f docs/init.sql
      ```
 
 5. Configure environment variables:
@@ -65,7 +66,7 @@ A Flask-based web application designed to help users learn vocabulary through ad
      ```
 
 6. Load vocabulary data:
-   - The vocabulary JSON files in the `vocab/` directory will be automatically loaded by the application
+   - The vocabulary JSON files in the `docs/vocab/` directory will be automatically loaded by the application
 
 ## Running the Application
 
@@ -94,13 +95,15 @@ VocabFlashCard/
 │   ├── base.html          # Base template
 │   ├── index.html         # Landing page
 │   ├── dashboard.html     # User dashboard
-│   └── practice.html      # Practice session page
+│   ├── practice.html      # Practice session page
+│   └── synonym_game.html  # Synonym matching game
 ├── vocab/                 # Vocabulary JSON files
 │   ├── IELTS_Group_Arts_Entertainment.json
 │   ├── IELTS_Group_Economy_Finance.json
 │   └── ...                # Additional vocabulary files
 ├── static/                # Static assets (CSS, JS, images)
 │   ├── css/
+│   │   └── synonym_game.css  # Styles for synonym game
 │   └── js/
 ├── manager/               # Application managers
 │   ├── __init__.py        # Package initializer
@@ -114,6 +117,7 @@ VocabFlashCard/
 │   ├── user_statistics_manager.py # User statistics management
 │   ├── auth_manager.py    # Authentication management
 │   ├── practice_manager.py # Practice functionality management
+│   ├── synonym_game_manager.py # Synonym game management
 │   └── flash_card_blueprint.py # Flask blueprint for flash card APIs
 └── ...
 ```
@@ -129,6 +133,9 @@ The application uses a PostgreSQL database with the following tables:
 - `practice_sessions`: Records practice session information
 - `user_progress`: Tracks individual word attempts during sessions
 - `user_statistics`: Aggregated user statistics for faster queries
+- `synonyms`: Synonym data for the synonym game
+- `synonym_games`: Tracks synonym game sessions
+- `synonym_scores`: Tracks scores for each round of a synonym game
 
 ## Adaptive Difficulty System
 
@@ -152,6 +159,17 @@ The application implements an adaptive difficulty system:
 - Level 2 word correct = 3 points
 - And so on...
 
+## Synonym Game
+
+The synonym matching game features:
+
+1. Drag-and-drop interface for matching words to their meanings
+2. Two meanings displayed in separate boxes
+3. Word pills that can be dragged to the correct meaning box
+4. Visual feedback with color-coded results (green for correct, red for incorrect)
+5. 5 rounds per game or until 5 minutes elapse
+6. Scoring based on percentage of correct words per meaning (max 1000 points)
+
 ## API Endpoints
 
 All endpoints are under the `/flash_card` prefix:
@@ -159,6 +177,7 @@ All endpoints are under the `/flash_card` prefix:
 - `GET /flash_card/` - Landing page
 - `GET /flash_card/dashboard` - User dashboard with statistics
 - `GET /flash_card/practice` - Practice session page
+- `GET /flash_card/synonym-game` - Synonym game page
 - `GET /flash_card/auth/login` - Google OAuth login
 - `GET /flash_card/auth/callback` - Google OAuth callback
 - `GET /flash_card/auth/logout` - Logout user
@@ -166,6 +185,10 @@ All endpoints are under the `/flash_card` prefix:
 - `POST /flash_card/api/end_session` - End the current practice session
 - `GET /flash_card/api/next_word` - Get the next word for practice
 - `POST /flash_card/api/submit_answer` - Submit an answer and update user progress
+- `POST /flash_card/api/synonym-game/start` - Start a new synonym game
+- `GET /flash_card/api/synonym-game/next-round` - Get the next round of the synonym game
+- `POST /flash_card/api/synonym-game/submit-round` - Submit answers for a round of the synonym game
+- `POST /flash_card/api/synonym-game/end` - End the current synonym game
 
 ## Google OAuth Configuration
 

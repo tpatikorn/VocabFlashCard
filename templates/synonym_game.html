@@ -316,6 +316,7 @@
             currentWordElement.textContent = 'Round Complete!';
             // All words processed, enable next round button
             nextRoundBtn.disabled = false;
+            submitRound();
         }
         updateWordsRemaining();
     }
@@ -409,7 +410,7 @@
     
     // Load next round
     function nextRound() {
-        submitRound();
+        loadNextRound();
     }
     
     // End the game

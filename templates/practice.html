@@ -9,24 +9,6 @@
     <div class="row">
         <div class="col-12">
             <div id="practice-container">
-                <!-- Group selection -->
-                <div class="row mb-3" id="group-selection-section">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Select a Word Group</h5>
-                                <p class="card-text">Choose a group to practice vocabulary from:</p>
-                                <div class="d-flex flex-wrap gap-2">
-                                    <a href="{{ url_for('flash_card.index') }}" class="btn btn-primary">Change Group</a>
-                                </div>
-                                {% if group_id %}
-                                <div id="group-info" data-group-id="{{ group_id }}" class="d-none"></div>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
                 <!-- Timer display -->
                 <div class="row mb-3">
                     <div class="col-12">

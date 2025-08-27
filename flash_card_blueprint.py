@@ -19,18 +19,7 @@ flash_card_bp = Blueprint('flash_card', __name__, url_prefix='/flash_card')
 @flash_card_bp.route('/')
 def index():
     """Main dashboard page"""
-    # For now, we'll redirect to dashboard if user is logged in
-    # In a full implementation, this would be the main landing page
-    if 'user' in session:
-        return redirect(url_for('flash_card.dashboard'))
-    
-    # Get all word groups for selection
-    try:
-        groups = vocabulary_manager.get_all_groups()
-    except Exception as e:
-        logger.error(f"Error loading groups: {e}")
-        groups = []
-    
+    groups = vocabulary_manager.get_all_groups()
     return render_template('index.html', groups=groups)
 
 @flash_card_bp.route('/dashboard')
@@ -39,31 +28,23 @@ def dashboard():
     if 'user' not in session:
         return redirect(url_for('flash_card.index'))
     
-    try:
-        # Get user statistics
-        stats = user_progress_manager.get_or_update_weekly_stats(session['user']['id'])
-        
-        # Get group performance
-        group_performance = user_progress_manager.get_user_group_performance(session['user']['id'])
-        
-        # Get recent sessions
-        recent_sessions = practice_session_manager.get_user_sessions(session['user']['id'], limit=5)
-        
-        # Get synonym game history
-        game_history = synonym_game_manager.get_game_history(session['user']['id'], limit=5)
-        
-        return render_template('dashboard.html', 
-                             stats=stats, 
-                             group_performance=group_performance,
-                             recent_sessions=recent_sessions,
-                             game_history=game_history)
-    except Exception as e:
-        logger.error(f"Error loading dashboard: {e}")
-        return render_template('dashboard.html', 
-                             stats={}, 
-                             group_performance=[],
-                             recent_sessions=[],
-                             game_history=[])
+    # Get user statistics
+    stats = user_progress_manager.get_or_update_weekly_stats(session['user']['id'])
+    
+    # Get group performance
+    group_performance = user_progress_manager.get_user_group_performance(session['user']['id'])
+    
+    # Get recent sessions
+    recent_sessions = practice_session_manager.get_user_sessions(session['user']['id'], limit=5)
+    
+    # Get synonym game history
+    game_history = synonym_game_manager.get_game_history(session['user']['id'], limit=5)
+
+    return render_template('dashboard.html', 
+                            stats=stats, 
+                            group_performance=group_performance,
+                            recent_sessions=recent_sessions,
+                            game_history=game_history)
 
 @flash_card_bp.route('/practice')
 def practice():

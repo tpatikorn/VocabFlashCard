@@ -116,6 +116,7 @@ def get_game_history(user_id, limit=10):
             SELECT 
                 sg.id,
                 sg.played_at,
+                string_agg(ss.meaning, ', '), 
                 COALESCE(SUM(ss.score), 0) as total_score
             FROM synonym_games sg
             LEFT JOIN synonym_scores ss ON sg.id = ss.game_id
@@ -134,7 +135,8 @@ def get_game_history(user_id, limit=10):
             result.append({
                 'id': game[0],
                 'played_at': game[1],
-                'total_score': float(game[2]) if game[2] else 0.0
+                'meanings': game[2].split(",") if game[2] else [],
+                'total_score': float(game[3]) if game[3] else 0.0
             })
         
         return result

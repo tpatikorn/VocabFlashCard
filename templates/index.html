@@ -5,61 +5,93 @@
 {% block header %}Vocabulary Learning App{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="container mt-3">
     <div class="row">
         <div class="col-12 text-center">
             <h2>Improve Your Vocabulary with Adaptive Learning</h2>
-            <p class="lead">Practice IELTS vocabulary words with our intelligent adaptive system that adjusts to your learning pace.</p>
+            <span class="lead">Practice IELTS vocabulary words with our intelligent adaptive system that adjusts to your learning pace.</span>
         </div>
     </div>
     
-    <!-- Word Groups Selection -->
-    <div class="row mt-4">
-        <div class="col-12">
-            <h3 class="text-center mb-4">Select a Word Group to Practice</h3>
-            <div class="row justify-content-center">
-                {% if groups %}
-                    {% for group in groups %}
-                    <div class="col-md-4 col-sm-6 mb-3">
-                        <a href="{{ url_for('flash_card.practice', group_id=group.id) }}" class="btn btn-primary btn-lg w-100 h-100 d-flex align-items-center justify-content-center">
-                            {{ group.name }}
-                        </a>
-                    </div>
-                    {% endfor %}
-                {% else %}
-                    <div class="col-12 text-center">
-                        <p>No word groups available. Please check back later.</p>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-    
-    <div class="row mt-5">
+    <div class="row mt-3 d-flex align-items-stretch">
         <div class="col-md-4">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-body text-center">
                     <h5 class="card-title">Adaptive Difficulty</h5>
-                    <p class="card-text">Our system adjusts the difficulty based on your performance to optimize learning.</p>
+                    <span class="card-text">Our system adjusts the difficulty based on your performance to optimize learning.</span>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-body text-center">
                     <h5 class="card-title">Comprehensive Statistics</h5>
-                    <p class="card-text">Track your progress with detailed statistics and performance insights.</p>
+                    <span class="card-text">Track your progress with detailed statistics and performance insights.</span>
+                    <a href="{{ url_for('flash_card.dashboard') }}" class="btn btn-primary m-2">Go to Dashboard</a>
+
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-body text-center">
                     <h5 class="card-title">Rich Vocabulary</h5>
-                    <p class="card-text">Practice with a wide range of IELTS vocabulary organized by topic.</p>
+                    <span class="card-text">Practice with a wide range of IELTS vocabulary organized by topic.</span>
                 </div>
             </div>
         </div>
     </div>
+
+    
+    <div class="row mt-3 d-flex align-items-stretch">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5>Definition Game</h5>
+                </div>
+                <div class="card-body">
+                    <div class="my-1">See the words, match the definition!</div>
+                    <div class="input-group">
+                        <select id="group-select" class="form-select">
+                        <option value="" disabled selected>Select a word group</option>
+                        {% for group in groups %}
+                            <option value="{{ url_for('flash_card.practice', group_id=group.id) }}">
+                            {{ group.name }}
+                            </option>
+                        {% endfor %}
+                        </select>
+                        <button id="start_session" class="btn btn-primary">Start Game</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5>Synonym Game</h5>
+                </div>
+                <div class="card-body">
+                    <div class="my-1">Test your knowledge with our synonym matching game!</div>
+                    <a href="{{ url_for('flash_card.synonym_game') }}" class="btn btn-primary">Play Synonym Game</a>
+                </div>
+            </div>
+        </div>
+            
+
+    
+    </div>
+
+    <script type="text/javascript">
+        document.getElementById('start_session').addEventListener('click', function() {
+            var select = document.getElementById('group-select');
+            var url = select.value;
+            if (url) {
+                window.location.href = url;
+            } else {
+                alert('Please select a word group to start a session.');
+            }
+        });
+    </script>
 </div>
 {% endblock %}

@@ -42,11 +42,28 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
+                            
                             <div class="card-body">
+                                
+                                <!-- Word progress -->
+                                <div class="row mb-1 col-12">
+                                    <div class="d-flex justify-content-center align-items-center flex-wrap">
+                                        <button id="start-game-btn" class="btn btn-success btn-lg btn-game-control">Start Game</button>
+                                        <button id="next-round-btn" class="btn btn-primary btn-lg btn-game-control d-none">Next Round</button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Feedback area -->
+                                <div class="row mt-1">
+                                    <div class="col-12">
+                                        <div id="round-feedback" class="text-center"></div>
+                                    </div>
+                                </div>
+                                
                                 <!-- Three-box game area -->
                                 <div class="row mb-4">
                                     <!-- Left meaning box -->
-                                    <div class="col-md-3 mb-3 mb-md-0">
+                                    <div class="col-md-4 mb-3 mb-md-0">
                                         <div class="border rounded p-3 h-100 d-flex flex-column meaning-box" id="meaning-box-1">
                                             <h5 class="text-center mb-3" id="meaning-1">Meaning 1</h5>
                                             <div class="d-flex flex-wrap word-container" id="meaning-1-words">
@@ -56,25 +73,26 @@
                                     </div>
                                     
                                     <!-- Middle word display -->
-                                    <div class="col-md-6 mb-3 mb-md-0">
-                                        <div class="border rounded p-3 h-100 d-flex flex-column align-items-center" id="word-display-box">
+                                    <div class="col-md-4 mb-3 mb-md-0">
+                                        <div class="border rounded p-3 h-100 d-flex flex-column align-items-center d-none" id="word-display-box">
                                             <h5 class="text-center mb-3">Current Word</h5>
                                             <div class="word-display mb-3">
                                                 <span id="current-word" class="badge bg-success fs-4">Word</span>
                                             </div>
-                                            <div class="d-flex justify-content-between w-100">
+                                            <div class="d-flex flex-wrap justify-content-between w-100 gap-2">
                                                 <button id="left-arrow" class="btn btn-info arrow-btn">
                                                     <i class="fas fa-arrow-left"></i> Meaning 1
                                                 </button>
-                                                <button id="right-arrow" class="btn btn-info arrow-btn">
+                                                <button id="right-arrow" class="btn btn-info arrow-btn ms-auto">
                                                     Meaning 2 <i class="fas fa-arrow-right"></i>
                                                 </button>
                                             </div>
+                                            <span id="words-remaining" class="badge bg-secondary mx-auto my-2">Words remaining: 0</span>
                                         </div>
                                     </div>
                                     
                                     <!-- Right meaning box -->
-                                    <div class="col-md-3">
+                                    <div class="col-md-4 mb-md-0">
                                         <div class="border rounded p-3 h-100 d-flex flex-column meaning-box" id="meaning-box-2">
                                             <h5 class="text-center mb-3" id="meaning-2">Meaning 2</h5>
                                             <div class="d-flex flex-wrap word-container" id="meaning-2-words">
@@ -83,46 +101,43 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <!-- Word progress -->
-                                <div class="row mb-3">
-                                    <div class="col-12">
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <span id="words-remaining" class="badge bg-secondary">Words remaining: 0</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Feedback area -->
-                                <div class="row mt-4">
-                                    <div class="col-12">
-                                        <div id="round-feedback" class="text-center"></div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Controls -->
-                                <div class="row mt-4">
-                                    <div class="col-12 text-center">
-                                        <button id="start-game-btn" class="btn btn-success btn-lg btn-game-control">Start Game</button>
-                                        <button id="next-round-btn" class="btn btn-primary btn-lg btn-game-control d-none" disabled>Next Round</button>
-                                        <button id="end-game-btn" class="btn btn-danger btn-lg btn-game-control d-none">End Game</button>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Game summary -->
-                <div class="row mt-4 d-none" id="game-summary">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <h3>Game Complete!</h3>
-                                <h4>Your Score: <span id="final-score">0</span> / 1000</h4>
-                                <button id="play-again-btn" class="btn btn-primary btn-lg mt-3 btn-game-control">Play Again</button>
-                                <a href="{{ url_for('flash_card.dashboard') }}" class="btn btn-secondary btn-lg mt-3 btn-game-control">Back to Dashboard</a>
+            </div>
+            <!-- Game summary -->
+            <div class="row mt-4 d-none" id="game-summary">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3>Game Complete!</h3>
+                            <h4>Your Score: <span id="final-score">0</span> / 1000</h4>
+                            <div class="row justify-content-center">
+                                <div class="col-md-8">
+                                    <div class="stats-container">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <p class="stat-item"><strong>Rounds Completed:</strong><br><span id="rounds-completed">0</span>/5</p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p class="stat-item"><strong>Time Taken:</strong><br><span id="time-taken">0:00</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <p class="stat-item"><strong>Percentage:</strong><br><span id="score-percentage">0</span>%</p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p class="stat-item"><strong>Game Status:</strong><br><span id="game-status">Completed</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <button id="play-again-btn" class="btn btn-primary btn-lg mt-3 btn-game-control">Play Again</button>
+                            <a href="{{ url_for('flash_card.dashboard') }}" class="btn btn-secondary btn-lg mt-3 btn-game-control">Back to Dashboard</a>
                         </div>
                     </div>
                 </div>
@@ -136,9 +151,11 @@
     // Game state variables
     let gameId = null;
     let currentRound = 1;
+    const maxRounds = 5;
     let totalScore = 0;
     let timerInterval = null;
     let timeRemaining = 5 * 60; // 5 minutes in seconds
+    let initialTime = 5 * 60; // Initial time in seconds
     let currentWords = []; // Words for the current round
     let currentWordIndex = 0; // Index of the current word being displayed
     let userAnswers = {}; // {word: meaning}
@@ -160,11 +177,17 @@
     const gameProgressElement = document.getElementById('game-progress');
     const startGameBtn = document.getElementById('start-game-btn');
     const nextRoundBtn = document.getElementById('next-round-btn');
-    const endGameBtn = document.getElementById('end-game-btn');
     const gameSummaryElement = document.getElementById('game-summary');
     const finalScoreElement = document.getElementById('final-score');
     const playAgainBtn = document.getElementById('play-again-btn');
     const wordsRemainingElement = document.getElementById('words-remaining');
+    const wordDisplayBox = document.getElementById('word-display-box');
+
+    // Game summary elements
+    const roundsCompletedElement = document.getElementById('rounds-completed');
+    const timeTakenElement = document.getElementById('time-taken');
+    const scorePercentageElement = document.getElementById('score-percentage');
+    const gameStatusElement = document.getElementById('game-status');
     
     // Format time as MM:SS
     function formatTime(seconds) {
@@ -186,7 +209,7 @@
         // End game when time runs out
         if (timeRemaining <= 0) {
             clearInterval(timerInterval);
-            endGame();
+            endGame(true); // Pass true to indicate time ran out
         }
         
         timeRemaining--;
@@ -195,6 +218,7 @@
     // Start the game timer
     function startTimer() {
         timeRemaining = 5 * 60; // Reset to 5 minutes
+        initialTime = 5 * 60; // Set initial time
         timerElement.textContent = formatTime(timeRemaining);
         timerInterval = setInterval(updateTimer, 1000);
     }
@@ -225,8 +249,6 @@
                 roundElement.textContent = currentRound;
                 
                 startGameBtn.classList.add('d-none');
-                nextRoundBtn.classList.remove('d-none');
-                endGameBtn.classList.remove('d-none');
                 
                 startTimer();
                 loadNextRound();
@@ -274,6 +296,7 @@
             meaning2Element.textContent = data.meanings[1];
             leftArrowBtn.innerHTML = `⫷ ${data.meanings[0]}`;
             rightArrowBtn.innerHTML = `${data.meanings[1]} ⫸`;
+            wordDisplayBox.classList.remove('d-none');
             
             // Store correct answers
             data.categories.forEach(category => {
@@ -294,7 +317,7 @@
             }
             
             // Disable next round button until all words are processed
-            nextRoundBtn.disabled = true;
+            nextRoundBtn.classList.add('d-none');
         })
         .catch(error => {
             console.error('Error loading round:', error);
@@ -391,11 +414,13 @@
             });
             feedbackHtml += `<p><strong>Round Score: ${data.total_score}/${data.max_possible_score}</strong></p>`;
             feedbackHtml += '</div>';
+
+            wordDisplayBox.classList.add('d-none');
             
             roundFeedbackElement.innerHTML = feedbackHtml;
             
             // Hide submit button and show next round or end game button
-            if (currentRound >= 5) {
+            if (currentRound >= maxRounds) {
                 endGame();
             } else {
                 nextRoundBtn.classList.remove('d-none');
@@ -414,8 +439,11 @@
     }
     
     // End the game
-    function endGame() {
+    function endGame(timeRanOut = false) {
         stopTimer();
+        
+        // Calculate time taken
+        const timeTaken = initialTime - timeRemaining;
         
         fetch('/flash_card/api/synonym-game/end', {
             method: 'POST',
@@ -428,6 +456,13 @@
             if (data.status === 'Game ended') {
                 // Show game summary
                 finalScoreElement.textContent = data.total_score;
+                
+                // Calculate and display additional statistics
+                const percentage = Math.round((data.total_score / 1000) * 100);
+                roundsCompletedElement.textContent = currentRound; // Current round is 1-indexed
+                timeTakenElement.textContent = formatTime(timeTaken);
+                scorePercentageElement.textContent = percentage;
+                gameStatusElement.textContent = timeRanOut ? 'Time Ran Out' : 'Completed';
                 
                 // Hide game container and show summary
                 document.getElementById('game-container').classList.add('d-none');
@@ -470,7 +505,6 @@
         // Reset buttons
         startGameBtn.classList.remove('d-none');
         nextRoundBtn.classList.add('d-none');
-        endGameBtn.classList.add('d-none');
         
         // Clear game area
         meaning1Element.textContent = 'Meaning 1';
@@ -485,7 +519,6 @@
     // Event listeners
     startGameBtn.addEventListener('click', startGame);
     nextRoundBtn.addEventListener('click', nextRound);
-    endGameBtn.addEventListener('click', endGame);
     playAgainBtn.addEventListener('click', playAgain);
     
     // Arrow button event listeners
